@@ -3,18 +3,19 @@ import Image from "next/image";
 export function Hero() {
   return (
     <section className="relative isolate overflow-hidden bg-white text-ink">
-      <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+      <div className="pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:flex items-center justify-end pt-20 pb-8 pr-8 pl-2 xl:pr-12">
         <Image
           src="/images/header9.png"
-          alt="Stacked honeycomb with a wooden honey dipper"
-          fill
+          alt="Honeycomb with a wooden honey dipper and white blossoms"
+          width={2048}
+          height={2048}
           priority
-          sizes="50vw"
-          className="object-contain object-right"
+          sizes="(min-width: 1024px) 46vw, 90vw"
+          className="h-full w-auto max-w-full object-contain"
         />
       </div>
 
-      <div className="relative mx-auto grid max-w-[90rem] items-center lg:min-h-[680px] lg:grid-cols-2">
+      <div className="relative mx-auto grid max-w-[90rem] items-center lg:min-h-[720px] lg:grid-cols-2">
         <div className="flex flex-col justify-center px-6 pb-10 pt-28 sm:px-10 sm:pt-32 lg:py-28 lg:pl-12 lg:pr-8 xl:pl-16">
           <p className="animate-fade-up text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/55 sm:text-xs">
             Naturally harvested in Ruiru
@@ -47,14 +48,14 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="relative mx-auto mb-8 h-[460px] w-full max-w-sm sm:h-[520px] lg:hidden">
+        <div className="relative mx-auto mb-8 aspect-square w-full max-w-md px-4 lg:hidden">
           <Image
-            src="/images/header2-hero.jpg"
-            alt="Stacked honeycomb with a wooden honey dipper"
+            src="/images/header9.png"
+            alt="Honeycomb with a wooden honey dipper and white blossoms"
             fill
             priority
             sizes="90vw"
-            className="object-contain object-center"
+            className="object-contain"
           />
         </div>
       </div>
