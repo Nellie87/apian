@@ -31,7 +31,7 @@ function FeatureIcon({ index }: { index: number }) {
 
 export function Features() {
   return (
-    <section className="relative z-10 -mt-14 bg-white pb-6 sm:-mt-20 lg:-mt-24">
+    <section className="relative z-10 bg-white pb-6">
       <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 py-10 sm:gap-10 sm:px-8 lg:grid-cols-4 lg:py-14">
         {honeyFeatures.map((feature, index) => (
           <div

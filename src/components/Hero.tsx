@@ -1,209 +1,63 @@
-import { site } from "@/lib/site";
+import Image from "next/image";
 
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-yellow text-ink">
-      {/* Soft background lighting */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-32 z-0 h-[28rem] w-[42rem] -translate-x-1/2 rounded-full bg-white/20 blur-[110px]"
-      />
+    <section className="relative isolate overflow-hidden bg-white text-ink">
+      <div className="absolute inset-y-0 right-0 hidden w-1/2 lg:block">
+        <Image
+          src="/images/header9.png"
+          alt="Stacked honeycomb with a wooden honey dipper"
+          fill
+          priority
+          sizes="50vw"
+          className="object-contain object-right"
+        />
+      </div>
 
-      {/* Subtle decorative honeycomb shapes */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-[8%] top-[28%] hidden h-20 w-20 rotate-12 rounded-[28px] border border-ink/5 lg:block"
-      />
+      <div className="relative mx-auto grid max-w-[90rem] items-center lg:min-h-[680px] lg:grid-cols-2">
+        <div className="flex flex-col justify-center px-6 pb-10 pt-28 sm:px-10 sm:pt-32 lg:py-28 lg:pl-12 lg:pr-8 xl:pl-16">
+          <p className="animate-fade-up text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/55 sm:text-xs">
+            Naturally harvested in Ruiru
+          </p>
 
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[9%] top-[38%] hidden h-14 w-14 -rotate-12 rounded-[20px] border border-ink/5 lg:block"
-      />
-
-      {/* Honey drip artwork */}
-      <div
-        aria-hidden
-        className="
-          pointer-events-none absolute inset-x-0 bottom-0 z-0
-          h-[clamp(17rem,37vw,35rem)]
-          bg-[url('/images/yellow_bg.png')]
-          bg-[length:100%_auto]
-          bg-bottom
-          bg-no-repeat
-        "
-      />
-
-      {/* Hero content */}
-      <div
-        className="
-          relative z-10 mx-auto flex
-          min-h-[780px]
-          max-w-7xl
-          items-start
-          justify-center
-          px-5
-          pb-[clamp(17rem,35vw,31rem)]
-          pt-32
-          sm:min-h-[820px]
-          sm:px-8
-          sm:pt-36
-          lg:min-h-[850px]
-          lg:px-10
-          lg:pt-28
-        "
-      >
-        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-          {/* Eyebrow */}
-          <div className="animate-fade-up inline-flex items-center gap-2 rounded-full border border-ink/10 bg-white/25 px-4 py-2 shadow-sm backdrop-blur-sm">
-            <span className="h-2 w-2 rounded-full bg-orange" />
-
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/70 sm:text-xs">
-              Naturally harvested in Ruiru
-            </span>
-          </div>
-
-          {/* Main title */}
-          <h1
-            className="
-              animate-fade-up delay-1
-              mt-6
-              font-display
-              text-[clamp(3.8rem,8vw,7.5rem)]
-              font-bold
-              leading-[0.82]
-              tracking-[-0.055em]
-              text-ink
-            "
-          >
-            {site.shortName}
+          <h1 className="animate-fade-up delay-1 mt-4 font-display text-[clamp(3.1rem,6.2vw,5.4rem)] font-bold leading-[0.92] tracking-[-0.045em] text-ink">
+            Pure Honey
+            <br />
+            Everyday
           </h1>
 
-          {/* Script subtitle */}
-          <p
-            className="
-              animate-fade-up delay-2
-              mt-5
-              rotate-[-1deg]
-              font-script
-              text-[clamp(1.65rem,3vw,2.5rem)]
-              leading-none
-              text-ink/90
-            "
-          >
-            Beekeeping &amp; Apitherapy
+          <p className="animate-fade-up delay-2 mt-5 max-w-md text-base font-medium leading-7 text-ink/65 sm:text-lg sm:leading-8">
+            Fresh, unheated honey from our Ruiru apiaries — floral, full-bodied,
+            and packed straight from the comb.
           </p>
 
-          {/* Description */}
-          <p
-            className="
-              animate-fade-up delay-3
-              mx-auto
-              mt-7
-              max-w-xl
-              text-base
-              font-medium
-              leading-7
-              text-ink/70
-              sm:text-lg
-              sm:leading-8
-            "
-          >
-            Pure, carefully harvested honey from our Ruiru apiaries,
-            delivered naturally from the hive to your table.
-          </p>
-
-          {/* CTAs */}
-          <div className="animate-fade-up delay-4 mt-9 flex flex-col items-center gap-4 sm:flex-row">
+          <div className="animate-fade-up delay-3 mt-8 flex flex-wrap items-center gap-4">
             <a
               href="#products"
-              className="
-                inline-flex min-h-13 items-center justify-center
-                rounded-full
-                bg-ink
-                px-8
-                py-3.5
-                text-sm
-                font-semibold
-                text-white
-                shadow-[0_14px_30px_rgba(45,21,7,0.18)]
-                transition
-                duration-300
-                hover:-translate-y-0.5
-                hover:bg-ink/90
-                hover:shadow-[0_18px_38px_rgba(45,21,7,0.24)]
-                focus-visible:outline-none
-                focus-visible:ring-2
-                focus-visible:ring-ink
-                focus-visible:ring-offset-4
-                focus-visible:ring-offset-yellow
-              "
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(42,26,18,0.16)] transition duration-300 hover:-translate-y-0.5 hover:bg-ink/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink focus-visible:ring-offset-4"
             >
               Shop Our Honey
             </a>
-
             <a
-              href="#story"
-              className="
-                inline-flex min-h-13 items-center justify-center
-                rounded-full
-                border border-ink/15
-                bg-white/20
-                px-7
-                py-3.5
-                text-sm
-                font-semibold
-                text-ink
-                backdrop-blur-sm
-                transition
-                duration-300
-                hover:border-ink/25
-                hover:bg-white/35
-              "
+              href="#about"
+              className="inline-flex min-h-12 items-center justify-center px-2 text-sm font-semibold text-ink/75 transition hover:text-ink"
             >
-              Discover Our Story
+              Our story
             </a>
           </div>
+        </div>
 
-          {/* Trust points */}
-          <div
-            className="
-              animate-fade-up delay-4
-              mt-9
-              flex flex-wrap
-              items-center
-              justify-center
-              gap-x-5
-              gap-y-3
-              text-xs
-              font-medium
-              text-ink/60
-              sm:text-sm
-            "
-          >
-            <span>100% Pure Honey</span>
-
-            <span
-              aria-hidden
-              className="hidden h-1 w-1 rounded-full bg-ink/30 sm:block"
-            />
-
-            <span>Locally Harvested</span>
-
-            <span
-              aria-hidden
-              className="hidden h-1 w-1 rounded-full bg-ink/30 sm:block"
-            />
-
-            <span>Nothing Artificial</span>
-          </div>
+        <div className="relative mx-auto mb-8 h-[460px] w-full max-w-sm sm:h-[520px] lg:hidden">
+          <Image
+            src="/images/header2-hero.jpg"
+            alt="Stacked honeycomb with a wooden honey dipper"
+            fill
+            priority
+            sizes="90vw"
+            className="object-contain object-center"
+          />
         </div>
       </div>
-
-      {/* Smooth white transition at the bottom */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-10 bg-gradient-to-b from-transparent to-white/80"
-      />
     </section>
   );
 }

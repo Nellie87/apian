@@ -28,7 +28,7 @@ export function About() {
 
         <div className="animate-soft-rise delay-2 relative mx-auto aspect-square w-full max-w-md lg:max-w-lg">
           {/* <div className="hex-clip absolute inset-0 bg-orange/10" /> */}
-          <div className="inset-[10px] overflow-hidden bg-mist">
+          <div className="absolute inset-[10px] overflow-hidden bg-mist">
             <Image
               src="/images/test 2.jpeg"
               alt="Honey jars with flowers and honeycomb"
