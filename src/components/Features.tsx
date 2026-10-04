@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { SectionTitle } from "@/components/SectionTitle";
 import { honeyFeatures } from "@/lib/site";
 
 function HexFrame({ children }: { children: ReactNode }) {
@@ -31,8 +32,10 @@ function FeatureIcon({ index }: { index: number }) {
 
 export function Features() {
   return (
-    <section className="relative z-10 bg-white pb-6">
-      <div className="mx-auto grid max-w-6xl grid-cols-2 gap-8 px-5 py-10 sm:gap-10 sm:px-8 lg:grid-cols-4 lg:py-14">
+    <section className="relative z-10 bg-white">
+      <div className="mx-auto max-w-6xl px-5 pb-6 pt-6 sm:px-8 lg:pt-10">
+        <SectionTitle title="Why Our Honey" />
+        <div className="mt-10 grid grid-cols-2 gap-8 sm:mt-12 sm:gap-10 lg:mt-14 lg:grid-cols-4">
         {honeyFeatures.map((feature, index) => (
           <div
             key={feature.title}
@@ -57,6 +60,7 @@ export function Features() {
             </p>
           </div>
         ))}
+        </div>
       </div>
     </section>
   );

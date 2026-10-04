@@ -9,16 +9,11 @@ export function Hero() {
             Naturally harvested in Ruiru
           </p>
 
-          <h1 className="animate-fade-up delay-1 mt-3 font-display text-[clamp(2.05rem,6.4vw,5.4rem)] font-bold leading-[0.92] tracking-[-0.045em] text-ink sm:mt-4">
-            Pure Honey
+          <h1 className="animate-fade-up delay-1 mt-3 font-display text-[clamp(1.85rem,4.8vw,4.35rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink sm:mt-4">
+            Purest essence
             <br />
-            Everyday
+            of <span className="text-[#c56f14]">bee kind</span>
           </h1>
-
-          <p className="animate-fade-up delay-2 mt-3 max-w-md text-[13px] font-medium leading-5 text-ink/65 sm:mt-5 sm:text-base sm:leading-7 lg:text-lg lg:leading-8">
-            Fresh, unheated honey from our Ruiru apiaries — floral, full-bodied,
-            and packed straight from the comb.
-          </p>
 
           <div className="animate-fade-up delay-3 mt-5 flex flex-wrap items-center gap-3 sm:mt-8 sm:gap-4">
             <a
