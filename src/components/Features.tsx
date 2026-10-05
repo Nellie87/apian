@@ -40,7 +40,7 @@ function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"
 export function Features() {
   return (
     <section id="honey" className="relative z-10 overflow-x-clip bg-white">
-      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-8 sm:py-16 lg:py-20">
+      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-8 sm:py-10 lg:py-12">
         <header className="text-center">
           <p className="font-display text-2xl font-medium tracking-tight text-ink sm:text-4xl">
             Why our

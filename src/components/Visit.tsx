@@ -5,7 +5,7 @@ export function Visit() {
   return (
     <section id="visit" className="bg-white">
       <div className="grid grid-cols-2">
-        <div className="flex items-center py-8 pl-4 pr-2 sm:px-8 sm:py-16 lg:py-24 lg:pr-16 xl:pl-24">
+        <div className="flex items-center py-8 pl-4 pr-2 sm:px-8 sm:py-10 lg:py-14 lg:pr-16 xl:pl-24">
           <div className="w-full max-w-xl lg:ml-auto">
             <p className="font-script text-3xl text-orange sm:text-4xl lg:text-5xl">Visit us</p>
             <h2 className="mt-1 font-display text-xl font-bold leading-tight tracking-tight text-ink sm:mt-2 sm:text-4xl lg:text-6xl">
@@ -71,7 +71,7 @@ export function Visit() {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center py-8 pl-2 pr-3 sm:px-6 lg:px-10 lg:py-12">
+        <div className="flex items-center justify-center py-8 pl-2 pr-3 sm:px-6 lg:px-10 lg:py-8">
           <div className="relative aspect-[736/957] w-full max-w-[18rem] sm:max-w-[22rem] lg:max-w-[26rem]">
             <Image
               src="/images/bee.png"

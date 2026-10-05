@@ -34,7 +34,7 @@ export function Products() {
   return (
     <>
       <section id="products" ref={sectionRef} className="bg-white">
-        <div className="mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pt-16 lg:py-20">
+        <div className="mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pt-12 lg:py-12">
           <SectionTitle title="Our Products" />
         
           <div className="mt-6 lg:mt-12 lg:grid lg:grid-cols-[18rem_1fr] lg:gap-10">

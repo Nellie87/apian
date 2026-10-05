@@ -50,7 +50,7 @@ export function Testimonials() {
 
   return (
     <section className="overflow-hidden bg-white">
-      <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16 lg:py-24">
+      <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
         <h2
           className="text-center font-script text-6xl font-bold text-leaf sm:text-7xl lg:text-8xl"
           style={{ textShadow: "3px 3px 0 var(--yellow)" }}

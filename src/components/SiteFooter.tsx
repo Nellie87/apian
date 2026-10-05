@@ -25,7 +25,7 @@ export function SiteFooter() {
         className="h-px w-full bg-gradient-to-r from-transparent via-yellow-deep/60 to-transparent"
       />
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:gap-12 sm:px-8 sm:py-16 md:grid-cols-12 md:gap-8 lg:py-20">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:gap-12 sm:px-8 sm:py-12 md:grid-cols-12 md:gap-8 lg:py-14">
         <div className="md:col-span-5">
           <Image
             src="/images/logo.png"
