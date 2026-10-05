@@ -194,8 +194,8 @@ body {
 @media (max-width: 639px) {
   .honey-fit {
     width: 560px;
-    transform: scale(0.64);
-    transform-origin: top left;
+    /* zoom (unlike transform: scale) also shrinks the layout box, so no phantom space is left below */
+    zoom: 0.64;
   }
 }
 

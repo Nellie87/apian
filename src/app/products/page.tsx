@@ -11,7 +11,14 @@ export const metadata: Metadata = {
     "Browse raw honey, propolis, beeswax skincare, herbal teas and more from Pollinators - and see the benefits of each product.",
 };
 
-export default function ProductsPage() {
+export default async function ProductsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string | string[] }>;
+}) {
+  const { q } = await searchParams;
+  const initialQuery = (Array.isArray(q) ? q[0] : q) ?? "";
+
   return (
     <>
       <SiteHeader />
@@ -27,7 +34,11 @@ export default function ProductsPage() {
           </div>
         </section>
 
-        <ProductCatalog categories={catalog} />
+        <ProductCatalog
+          key={initialQuery}
+          categories={catalog}
+          initialQuery={initialQuery}
+        />
       </main>
       <SiteFooter />
     </>

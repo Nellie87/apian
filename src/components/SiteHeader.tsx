@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { HeaderSearch } from "@/components/HeaderSearch";
 import { site } from "@/lib/site";
 
 const links = [
@@ -44,17 +45,8 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center justify-end gap-4 sm:gap-5">
-          <button
-            type="button"
-            className="hidden text-ink/70 transition hover:text-ink sm:inline-flex"
-            aria-label="Search"
-          >
-            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8">
-              <circle cx="11" cy="11" r="6.5" />
-              <path d="m16 16 3.5 3.5" strokeLinecap="round" />
-            </svg>
-          </button>
-          
+          <HeaderSearch />
+
         </div>
       </div>
     </header>

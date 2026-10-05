@@ -61,8 +61,8 @@ export const services = [
   {
     name: "Apitourism",
     detail: "Guided apiary visits - meet the bees, taste fresh honey, and learn the craft.",
-    image: "/images/service-apitourism-v2.jpg",
-    alt: "Two visitors in beekeeping veils smiling in a wildflower apiary",
+    image: "/images/service-siting.jpg",
+    alt: "Rows of colourful wooden beehives along a sunlit forest path",
   },
   {
     name: "Inspection",
@@ -79,8 +79,8 @@ export const services = [
   {
     name: "Training",
     detail: "Hands-on beekeeping courses for beginners and farmers ready to grow.",
-    image: "/images/service-training-v2.jpg",
-    alt: "Instructor showing a hive frame to smiling beekeeping students",
+    image: "/images/service-inspection.jpg",
+    alt: "Gloved hands lifting a hive frame covered in bees during a hands-on lesson",
   },
   {
     name: "Bee hive installation",

@@ -3,7 +3,7 @@ import Image from "next/image";
 export function Hero() {
   return (
     <section className="relative isolate bg-white text-ink">
-      <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-2 items-center gap-3 px-4 pb-8 pt-20 sm:gap-6 sm:px-10 sm:pb-10 sm:pt-28 lg:min-h-[720px] lg:gap-8 lg:px-12 lg:py-16 xl:px-16">
+      <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-2 items-center gap-3 px-4 pb-2 pt-20 sm:gap-6 sm:px-10 sm:pb-10 sm:pt-28 lg:min-h-[720px] lg:gap-8 lg:px-12 lg:py-16 xl:px-16">
         <div className="min-w-0">
           <p className="animate-fade-up text-[9px] font-semibold uppercase tracking-[0.16em] text-ink/55 sm:text-[11px] sm:tracking-[0.22em] lg:text-xs">
             Naturally harvested 

@@ -407,18 +407,53 @@ export function BenefitsDialog({
 /* ------------------------------------------------------------------ */
 
 export function ProductCatalog({
-  categories,
+  categories: allCategories,
+  initialQuery = "",
 }: {
   categories: CatalogCategory[];
+  initialQuery?: string;
 }) {
   const [selected, setSelected] = useState<SelectedProduct | null>(null);
+  const [query, setQuery] = useState(initialQuery);
+
+  const needle = query.trim().toLowerCase();
+  const categories = needle
+    ? allCategories
+        .map((category) => ({
+          ...category,
+          products: category.products.filter((p) =>
+            [p.name, p.tagline, p.summary, category.label, ...p.benefits]
+              .join(" ")
+              .toLowerCase()
+              .includes(needle),
+          ),
+        }))
+        .filter((category) => category.products.length > 0)
+    : allCategories;
 
   return (
     <>
+      <div className="mx-auto max-w-xl px-5 pt-6 sm:px-8">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search products..."
+          aria-label="Search products"
+          className="w-full rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:border-orange"
+        />
+      </div>
+
+      {categories.length === 0 ? (
+        <p className="mx-auto max-w-6xl px-5 py-16 text-center text-ink-muted sm:px-8">
+          No products match &ldquo;{query.trim()}&rdquo;.
+        </p>
+      ) : null}
+
       {/* Category quick-jump */}
       <nav
         aria-label="Product categories"
-        className="sticky top-0 z-20 border-y border-ink/10 bg-white/90 backdrop-blur"
+        className="sticky top-0 z-20 mt-6 border-y border-ink/10 bg-white/90 backdrop-blur"
       >
         <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-5 py-3 sm:justify-center sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => (

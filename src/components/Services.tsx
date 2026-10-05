@@ -10,7 +10,7 @@ const shapes = [
 export function Services() {
   return (
     <section id="services" className="bg-white">
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 lg:py-24">
+      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-16 lg:py-24">
         <header className="text-center">
           <p className="font-script text-2xl text-orange sm:text-3xl">What we do</p>
           <h2 className="mt-1 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl lg:text-7xl">
@@ -18,7 +18,7 @@ export function Services() {
           </h2>
         </header>
 
-        <ul className="mt-28 flex flex-wrap justify-center gap-x-5 gap-y-20 lg:mt-32 lg:grid lg:grid-cols-5 lg:items-start lg:gap-x-6">
+        <ul className="mt-20 flex flex-wrap sm:mt-28 justify-center gap-x-5 gap-y-20 lg:mt-32 lg:grid lg:grid-cols-5 lg:items-start lg:gap-x-6">
           {services.map((service, index) => (
             <li
               key={service.name}
@@ -51,7 +51,7 @@ export function Services() {
           ))}
         </ul>
 
-        <div className="mt-16 text-center lg:mt-20">
+        <div className="mt-10 text-center sm:mt-16 lg:mt-20">
           <a
             href="#visit"
             className="inline-flex rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange"

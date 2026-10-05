@@ -50,7 +50,7 @@ export function Testimonials() {
 
   return (
     <section className="overflow-hidden bg-white">
-      <div className="mx-auto max-w-3xl px-5 py-16 sm:px-8 lg:py-24">
+      <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16 lg:py-24">
         <h2
           className="text-center font-script text-6xl font-bold text-leaf sm:text-7xl lg:text-8xl"
           style={{ textShadow: "3px 3px 0 var(--yellow)" }}
@@ -58,7 +58,7 @@ export function Testimonials() {
           Testimonial
         </h2>
 
-        <div className="relative mx-auto mt-12 max-w-2xl sm:mt-16">
+        <div className="relative mx-auto mt-10 max-w-2xl sm:mt-16">
           {/* stacked sheets behind the card */}
           <div
             aria-hidden
@@ -116,7 +116,7 @@ export function Testimonials() {
           </figure>
         </div>
 
-        <p className="mt-12 text-center text-xs font-medium uppercase tracking-[0.25em] text-leaf/60">
+        <p className="mt-10 text-center text-xs sm:mt-12 font-medium uppercase tracking-[0.25em] text-leaf/60">
           Tap the card for the next one
         </p>
 
