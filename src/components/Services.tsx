@@ -22,7 +22,7 @@ export function Services() {
           {services.map((service, index) => (
             <li
               key={service.name}
-              className={`group relative flex w-full flex-col items-center bg-[linear-gradient(165deg,#f4f7ef_0%,#e6ecdc_55%,#d8e2cb_100%)] px-5 pb-8 pt-16 text-center ring-1 ring-[#8fa386]/40 shadow-[0_26px_44px_-24px_rgba(70,95,60,0.45)] transition duration-500 hover:-translate-y-1.5 sm:w-[calc(50%-0.625rem)] lg:w-auto ${
+              className={`group relative flex w-full flex-col items-center bg-white px-5 pb-8 pt-16 text-center ring-1 ring-[#e8a812]/70 shadow-[0_26px_44px_-24px_rgba(150,95,20,0.3)] transition duration-500 hover:-translate-y-1.5 sm:w-[calc(50%-0.625rem)] lg:w-auto ${
                 shapes[index % 2]
               } ${index % 2 === 1 ? "lg:mt-12" : ""}`}
             >
