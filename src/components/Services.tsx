@@ -1,64 +1,83 @@
 import Image from "next/image";
+import { SectionTitle } from "@/components/SectionTitle";
 import { services } from "@/lib/site";
 
-// Alternating corner shapes give each card the cut-paper look.
-const shapes = [
-  "rounded-[2rem_0.6rem_2rem_0.6rem]",
-  "rounded-[0.6rem_2rem_0.6rem_2rem]",
+// Bento layout on large screens: one tall feature card, then a mix of widths.
+const spans = [
+  "lg:col-span-7 lg:row-span-2",
+  "lg:col-span-5",
+  "lg:col-span-5",
+  "lg:col-span-6",
+  "lg:col-span-6",
 ] as const;
 
 export function Services() {
   return (
-    <section id="services" className="bg-white">
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
-        <header className="text-center">
-          <p className="font-script text-2xl text-orange sm:text-3xl">What we do</p>
-          <h2 className="mt-1 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl lg:text-7xl">
-            Our <span className="italic">services</span>
-          </h2>
-        </header>
+    <section id="services" className="relative isolate overflow-hidden bg-bark text-cream">
+      <div
+        aria-hidden
+        className="hex-pattern absolute inset-0 -z-10 opacity-40 [mask-image:radial-gradient(ellipse_at_10%_0%,black,transparent_65%)]"
+      />
+      <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 lg:py-28">
+        <div className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
+          <SectionTitle
+            align="left"
+            tone="dark"
+            eyebrow="What we do"
+            title={
+              <>
+                Beyond the jar, <em>we work with bees.</em>
+              </>
+            }
+          />
+          <a
+            href="#visit"
+            className="inline-flex w-fit shrink-0 items-center gap-2 rounded-full bg-yellow px-7 py-4 text-sm font-semibold text-ink transition hover:bg-cream"
+          >
+            Get in touch <span aria-hidden>→</span>
+          </a>
+        </div>
 
-        <ul className="mt-20 flex flex-wrap sm:mt-24 justify-center gap-x-5 gap-y-20 lg:mt-24 lg:grid lg:grid-cols-5 lg:items-start lg:gap-x-6">
+        <ul className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-12 lg:auto-rows-[17rem] lg:gap-5">
           {services.map((service, index) => (
             <li
               key={service.name}
-              className={`group relative flex w-full flex-col items-center bg-[linear-gradient(165deg,#f4f7ef_0%,#e6ecdc_55%,#d8e2cb_100%)] px-5 pb-8 pt-16 text-center ring-1 ring-[#8fa386]/40 shadow-[0_26px_44px_-24px_rgba(70,95,60,0.45)] transition duration-500 hover:-translate-y-1.5 sm:w-[calc(50%-0.625rem)] lg:w-auto ${
-                shapes[index % 2]
-              } ${index % 2 === 1 ? "lg:mt-12" : ""}`}
+              className={`reveal group relative isolate min-h-72 overflow-hidden rounded-[2rem] ring-1 ring-white/10 ${spans[index] ?? "lg:col-span-6"} ${
+                index === 0 ? "sm:col-span-2" : ""
+              }`}
             >
-              <div className="absolute left-1/2 top-0 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[linear-gradient(145deg,#f6d27a_0%,#c9962f_45%,#f1cf7a_100%)] p-[3px] shadow-[0_14px_28px_rgba(150,100,20,0.3)]">
-                <div className="rounded-full bg-white p-1.5">
-                  <div className="relative size-28 overflow-hidden rounded-full">
-                    <Image
-                      src={service.image}
-                      alt={service.alt}
-                      fill
-                      sizes="112px"
-                      className="object-cover transition duration-700 group-hover:scale-110"
-                    />
-                  </div>
+              <Image
+                src={service.image}
+                alt={service.alt}
+                fill
+                sizes="(min-width: 1024px) 50vw, (min-width: 640px) 50vw, 100vw"
+                className="-z-10 object-cover transition duration-700 group-hover:scale-105"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 -z-10 bg-linear-to-t from-bark via-bark/55 to-transparent"
+              />
+
+              <div className="flex h-full flex-col justify-between p-6 sm:p-8">
+                <span className="font-display text-sm tracking-[0.2em] text-yellow">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3
+                    className={`font-display font-medium leading-tight tracking-tight ${
+                      index === 0 ? "text-4xl sm:text-5xl" : "text-3xl"
+                    }`}
+                  >
+                    {service.name}
+                  </h3>
+                  <p className="mt-2 max-w-md text-sm leading-relaxed text-cream/80 sm:text-base">
+                    {service.detail}
+                  </p>
                 </div>
               </div>
-
-              <h3 className="font-display text-lg font-semibold leading-snug text-ink">
-                {service.name}
-              </h3>
-              <span aria-hidden className="mt-3 block h-px w-8 bg-orange/70" />
-              <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-                {service.detail}
-              </p>
             </li>
           ))}
         </ul>
-
-        <div className="mt-10 text-center sm:mt-12 lg:mt-14">
-          <a
-            href="#visit"
-            className="inline-flex rounded-full bg-ink px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange"
-          >
-            Get in touch
-          </a>
-        </div>
       </div>
     </section>
   );

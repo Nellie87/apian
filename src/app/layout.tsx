@@ -1,19 +1,13 @@
 import type { Metadata } from "next";
-import { Caveat, Outfit, Playfair_Display } from "next/font/google";
+import { Fraunces, Outfit } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
-
-const caveat = Caveat({
-  variable: "--font-caveat",
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+  axes: ["opsz", "SOFT"],
 });
 
 const outfit = Outfit({
@@ -36,9 +30,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${playfair.variable} ${caveat.variable} ${outfit.variable} h-full antialiased`}
+      className={`${fraunces.variable} ${outfit.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-ink">{children}</body>
+      <body className="flex min-h-full flex-col bg-cream text-ink">{children}</body>
     </html>
   );
 }

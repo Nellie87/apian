@@ -1,17 +1,26 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens - "golden hour" palette.
+ * Warm cream paper, bark-brown ink, honey + amber accents, one touch of leaf.
+ * Token names are kept stable so existing utilities (bg-yellow, text-orange...) keep working.
+ */
 :root {
-  --yellow: #ffd237;
-  --yellow-deep: #e8a812;
-  --orange: #e87a1a;
-  --orange-deep: #d4650f;
-  --leaf: #4f6b1a;
-  --ink: #2a1a12;
-  --ink-muted: #6b5a4e;
-  --cream: #ffffff;
-  --mist: #f6f6f6;
-  --background: #ffffff;
+  --yellow: #f6c445;
+  --yellow-deep: #d99a1c;
+  --orange: #b8620a;
+  --orange-deep: #954d05;
+  --leaf: #3f5a1a;
+  --ink: #24160e;
+  --ink-muted: #6a5849;
+  --cream: #fbf5e6;
+  --paper: #fffdf8;
+  --mist: #f3ead5;
+  --bark: #1d130c;
+  --bark-soft: #2d1f15;
+  --background: var(--cream);
   --foreground: var(--ink);
+  --header-h: 4.5rem;
 }
 
 @theme inline {
@@ -25,14 +34,17 @@
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-cream: var(--cream);
+  --color-paper: var(--paper);
   --color-mist: var(--mist);
-  --font-display: var(--font-playfair);
-  --font-script: var(--font-caveat);
+  --color-bark: var(--bark);
+  --color-bark-soft: var(--bark-soft);
+  --font-display: var(--font-fraunces);
   --font-sans: var(--font-outfit);
 }
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
 }
 
 body {
@@ -42,9 +54,28 @@ body {
 }
 
 ::selection {
-  background: #ffe9a0;
+  background: var(--yellow);
   color: var(--ink);
 }
+
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Type                                                                */
+/* ------------------------------------------------------------------ */
+
+.font-display {
+  font-family: var(--font-fraunces), Georgia, serif;
+  font-optical-sizing: auto;
+  font-variation-settings: "SOFT" 60;
+}
+
+/* ------------------------------------------------------------------ */
+/* Motion                                                              */
+/* ------------------------------------------------------------------ */
 
 @keyframes fade-up {
   from {
@@ -77,39 +108,6 @@ body {
   }
 }
 
-@keyframes honey-drip-fall {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.85;
-  }
-  50% {
-    transform: translateY(10px);
-    opacity: 1;
-  }
-}
-
-@keyframes honey-blob-breathe {
-  0%,
-  100% {
-    transform: scaleY(1);
-  }
-  50% {
-    transform: scaleY(1.03);
-  }
-}
-
-@keyframes hex-pop {
-  from {
-    opacity: 0;
-    transform: scale(0.85);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes sheet-up {
   from {
     transform: translateY(100%);
@@ -130,6 +128,25 @@ body {
   }
 }
 
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
+  50% {
+    transform: translateY(-10px) rotate(var(--r, 0deg));
+  }
+}
+
 .animate-sheet {
   animation: sheet-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -143,15 +160,19 @@ body {
 }
 
 .animate-fade-in {
-  animation: fade-in 1.2s ease both;
+  animation: fade-in 0.5s ease both;
 }
 
 .animate-soft-rise {
   animation: soft-rise 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-.animate-hex-pop {
-  animation: hex-pop 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+.animate-float {
+  animation: float-slow 6s ease-in-out infinite;
 }
 
 .delay-1 {
@@ -167,36 +188,28 @@ body {
   animation-delay: 0.5s;
 }
 
-.font-script {
-  font-family: var(--font-caveat), ui-rounded, cursive;
+/* Scroll-reveal with zero JS: only where animation-timeline is supported, so
+   nothing is ever left invisible in browsers that lack it. */
+@supports (animation-timeline: view()) {
+  .reveal {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 30%;
+  }
 }
 
-.font-display {
-  font-family: var(--font-playfair), Georgia, serif;
-}
+/* ------------------------------------------------------------------ */
+/* Decoration                                                          */
+/* ------------------------------------------------------------------ */
 
-.honey-drip-drop {
-  transform-box: fill-box;
-  transform-origin: center top;
-  animation: honey-drip-fall 3.6s ease-in-out infinite;
-}
-
-.honey-drip-blob {
-  transform-box: fill-box;
-  transform-origin: top center;
-  animation: honey-blob-breathe 5.5s ease-in-out infinite;
+/* Faint honeycomb lattice, tinted amber. */
+.hex-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%23d99a1c' stroke-opacity='.22' stroke-width='1.5'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23d99a1c' stroke-opacity='.22' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-size: 56px 100px;
 }
 
 .hex-clip {
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-@media (max-width: 639px) {
-  .honey-fit {
-    width: 560px;
-    /* zoom (unlike transform: scale) also shrinks the layout box, so no phantom space is left below */
-    zoom: 0.64;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -207,11 +220,11 @@ body {
   .animate-fade-up,
   .animate-fade-in,
   .animate-soft-rise,
-  .animate-hex-pop,
   .animate-sheet,
   .animate-dialog,
-  .honey-drip-drop,
-  .honey-drip-blob {
+  .animate-marquee,
+  .animate-float,
+  .reveal {
     animation: none;
   }
 }

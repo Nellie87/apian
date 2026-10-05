@@ -23,15 +23,22 @@ export default async function ProductsPage({
     <>
       <SiteHeader />
       <main className="min-w-0">
-        <section className="bg-linear-to-b from-[#fff3c4] via-[#fffaf3] to-white px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-36">
-          <div className="mx-auto max-w-3xl text-center">
-            <SectionTitle title="Our Products" />
-            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
-              From raw honey to beeswax skincare - tap{" "}
-              <span className="font-semibold text-orange">Benefits</span> on
-              any product to see what it does for you.
-            </p>
-          </div>
+        <section className="relative isolate overflow-hidden px-5 pb-10 pt-16 sm:px-8 sm:pb-14 sm:pt-24">
+          <div
+            aria-hidden
+            className="hex-pattern absolute inset-0 -z-10 [mask-image:radial-gradient(ellipse_at_50%_0%,black,transparent_70%)]"
+          />
+          <SectionTitle
+            eyebrow="The shop"
+            title={
+              <>
+                Our <em>products</em>
+              </>
+            }
+          >
+            From raw honey to beeswax skincare. Tap any product to see what it
+            does for you.
+          </SectionTitle>
         </section>
 
         <ProductCatalog

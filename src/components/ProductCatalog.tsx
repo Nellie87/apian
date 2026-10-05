@@ -72,7 +72,7 @@ function Placeholder({ icon, label }: { icon: CatalogIcon; label: string }) {
     <div
       role="img"
       aria-label={`${label} - photo coming soon`}
-      className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-yellow/35 via-[#fff3c4] to-orange/25"
+      className="absolute inset-0 flex items-center justify-center bg-linear-to-br from-yellow/40 via-[#fdeeb8] to-yellow-deep/30"
     >
       <svg
         className="absolute inset-0 size-full text-orange/15"
@@ -128,9 +128,9 @@ export function ProductCard({
     // button inside is the keyboard- and screen-reader-friendly trigger.
     <article
       onClick={() => onOpen(product)}
-      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-yellow-deep/50 hover:shadow-lg hover:shadow-orange/10"
+      className="group flex h-full cursor-pointer flex-col overflow-hidden rounded-3xl border border-ink/10 bg-cream p-2 transition duration-300 hover:-translate-y-1 hover:border-ink/25 hover:shadow-xl hover:shadow-ink/10"
     >
-      <div className="relative aspect-square overflow-hidden bg-mist">
+      <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
         {product.image ? (
           <Image
             src={product.image}
@@ -145,8 +145,8 @@ export function ProductCard({
         )}
       </div>
 
-      <div className="flex flex-1 flex-col p-3.5 sm:p-5">
-        <h3 className="font-display text-base font-semibold leading-snug text-ink sm:text-lg">
+      <div className="flex flex-1 flex-col px-3 pb-3 pt-4 sm:px-4">
+        <h3 className="font-display text-lg font-medium leading-snug tracking-tight text-ink sm:text-xl">
           {product.name}
         </h3>
         <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink-muted sm:text-sm">
@@ -158,12 +158,12 @@ export function ProductCard({
             type="button"
             aria-haspopup="dialog"
             aria-label={`Benefits of ${product.name}`}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-yellow px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-ink transition group-hover:bg-orange group-hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+            className="inline-flex w-full items-center justify-between gap-2 border-t border-ink/10 pt-3 text-sm font-semibold text-orange transition group-hover:text-orange-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
           >
-            Benefits
+            See benefits
             <svg
               viewBox="0 0 20 20"
-              className="size-4 transition group-hover:translate-x-0.5"
+              className="size-4 transition group-hover:translate-x-1"
               fill="none"
               stroke="currentColor"
               strokeWidth="2"
@@ -187,28 +187,26 @@ export function ProductCard({
 /** Card colourways, cycled by category - all drawn from the brand palette. */
 const themes = [
   {
-    // White card; green border + headings, yellow script and check rings.
-    card: "bg-white border-[3px] border-leaf",
-    name: "text-leaf",
+    // Light: warm paper card, honey check marks, dark pill button.
+    card: "bg-paper border border-ink/10",
+    name: "text-ink",
     body: "text-ink",
-    lead: "text-yellow-deep",
-    label: "text-leaf",
-    check: "bg-white text-leaf ring-2 ring-yellow-deep",
-    button:
-      "border-2 border-leaf text-leaf hover:bg-leaf hover:text-white focus-visible:outline-leaf",
-    badge: "text-leaf",
+    lead: "text-orange",
+    label: "text-orange",
+    check: "bg-yellow text-ink",
+    button: "bg-ink text-cream hover:bg-orange focus-visible:outline-orange",
+    badge: "text-orange",
   },
   {
-    // White card; yellow border, green headings and check marks.
-    card: "bg-white border-[3px] border-yellow-deep",
-    name: "text-leaf",
-    body: "text-ink",
-    lead: "text-yellow-deep",
-    label: "text-leaf",
-    check: "bg-white text-leaf ring-2 ring-leaf",
-    button:
-      "border-2 border-yellow-deep text-leaf hover:bg-yellow hover:text-ink focus-visible:outline-leaf",
-    badge: "text-leaf",
+    // Dark: bark card, cream type, honey accents.
+    card: "bg-bark border border-white/10",
+    name: "text-cream",
+    body: "text-cream/90",
+    lead: "text-yellow",
+    label: "text-yellow",
+    check: "bg-yellow text-ink",
+    button: "bg-yellow text-ink hover:bg-cream focus-visible:outline-yellow",
+    badge: "text-orange",
   },
 ] as const;
 
@@ -266,7 +264,7 @@ export function BenefitsDialog({
       onClick={(e) => {
         if (e.target === e.currentTarget) e.currentTarget.close();
       }}
-      className="fixed inset-0 m-auto h-fit max-h-[96dvh] w-[min(92vw,28rem)] max-w-none overflow-visible bg-transparent p-0 text-ink backdrop:bg-ink/65 backdrop:backdrop-blur-sm open:animate-dialog"
+      className="fixed inset-0 m-auto h-fit max-h-[96dvh] w-[min(92vw,28rem)] max-w-none overflow-visible bg-transparent p-0 text-ink backdrop:bg-bark/70 backdrop:backdrop-blur-sm open:animate-dialog"
     >
       {product && category ? (
         <div className="relative flex max-h-[96dvh] flex-col">
@@ -323,13 +321,13 @@ export function BenefitsDialog({
 
             <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain px-6 pb-2 pt-16 [scrollbar-color:var(--yellow-deep)_transparent] [scrollbar-width:thin] sm:px-8 sm:pt-[4.5rem]">
               <p
-                className={`font-script text-2xl leading-none sm:text-3xl ${theme.lead}`}
+                className={`font-display text-xl italic leading-none sm:text-2xl ${theme.lead}`}
               >
                 {category.lead}
               </p>
               <h2
                 id="benefits-title"
-                className={`mt-1.5 text-balance break-words font-display text-3xl font-bold leading-[1.1] tracking-tight sm:text-[2.5rem] ${theme.name}`}
+                className={`mt-1.5 text-balance break-words font-display text-3xl font-medium leading-[1.1] tracking-tight sm:text-[2.5rem] ${theme.name}`}
               >
                 {product.name}
                 {product.size ? (
@@ -385,7 +383,7 @@ export function BenefitsDialog({
                 href={orderHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition focus-visible:outline-2 focus-visible:outline-offset-2 ${theme.button}`}
+                className={`inline-flex rounded-full px-7 py-3 text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 ${theme.button}`}
               >
                 Order now
               </a>
@@ -433,14 +431,14 @@ export function ProductCatalog({
 
   return (
     <>
-      <div className="mx-auto max-w-xl px-5 pt-6 sm:px-8">
+      <div className="mx-auto max-w-xl px-5 pt-2 sm:px-8">
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search products..."
+          placeholder="Search honey, propolis, tea..."
           aria-label="Search products"
-          className="w-full rounded-full border border-ink/15 bg-white px-5 py-2.5 text-sm text-ink outline-none transition placeholder:text-ink/40 focus:border-orange"
+          className="w-full rounded-full border border-ink/15 bg-paper px-6 py-3.5 text-sm text-ink shadow-sm outline-none transition placeholder:text-ink/40 focus:border-orange"
         />
       </div>
 
@@ -453,14 +451,14 @@ export function ProductCatalog({
       {/* Category quick-jump */}
       <nav
         aria-label="Product categories"
-        className="sticky top-0 z-20 mt-6 border-y border-ink/10 bg-white/90 backdrop-blur"
+        className="sticky top-(--header-h) z-20 mt-8 border-y border-ink/10 bg-cream/90 backdrop-blur"
       >
         <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-5 py-3 sm:justify-center sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((category) => (
             <li key={category.id} className="shrink-0">
               <a
                 href={`#${category.id}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-4 py-1.5 text-sm font-medium text-ink/80 transition hover:border-orange hover:bg-orange hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+                className="inline-flex items-center gap-2 rounded-full border border-ink/15 bg-paper px-4 py-2 text-sm font-medium text-ink/80 transition hover:border-ink hover:bg-ink hover:text-cream focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
               >
                 <Icon name={category.icon} className="size-4" />
                 {category.label}
@@ -476,17 +474,17 @@ export function ProductCatalog({
             key={category.id}
             id={category.id}
             aria-labelledby={`${category.id}-heading`}
-            className="scroll-mt-20"
+            className="scroll-mt-40"
           >
-            <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
-              <div className="flex items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-full bg-yellow text-ink sm:size-11">
+            <div className="flex items-end justify-between gap-4 border-b border-ink/15 pb-4">
+              <div className="flex items-center gap-4">
+                <span className="hex-clip grid size-12 shrink-0 place-items-center bg-yellow text-ink sm:size-14">
                   <Icon name={category.icon} className="size-6" />
                 </span>
                 <div>
                   <h2
                     id={`${category.id}-heading`}
-                    className="font-display text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl"
+                    className="font-display text-3xl font-medium tracking-tight sm:text-4xl lg:text-5xl"
                   >
                     {category.label}
                   </h2>

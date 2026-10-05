@@ -10,26 +10,29 @@ export const site = {
   email: "apiannaturals@gmail.com",
 } as const;
 
+export const navLinks = [
+  { href: "/#honey", label: "Our honey" },
+  { href: "/products", label: "Shop" },
+  { href: "/#services", label: "Services" },
+  { href: "/#visit", label: "Visit" },
+] as const;
+
 export const honeyFeatures = [
   {
-    place: "leftTop" as const,
-    lead: "We Collect The Product",
-    detail: "- from our own apiaries and trusted partner keepers nearby.",
+    lead: "We collect",
+    detail: "From our own apiaries and trusted partner keepers nearby.",
   },
   {
-    place: "leftBottom" as const,
-    lead: "We Process Carefully",
-    detail: "- gentle extraction that protects enzymes and flavour.",
+    lead: "We process carefully",
+    detail: "Gentle extraction that protects the enzymes and flavour.",
   },
   {
-    place: "top" as const,
-    lead: "We Keep It Pure",
-    detail: "- no additives, tested for quality before packing.",
+    lead: "We keep it pure",
+    detail: "No additives, and quality-tested before packing.",
   },
   {
-    place: "bottom" as const,
-    lead: "We Share Locally",
-    detail: "- hive-to-home delivery  .",
+    lead: "We share locally",
+    detail: "Hive-to-home delivery, from our colonies to your kitchen.",
   },
 ] as const;
 

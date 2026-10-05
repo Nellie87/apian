@@ -7,29 +7,32 @@ export const metadata = {
   description: "Staff access for Pollinators Beekeeping and Apitherapy.",
 };
 
+const inputClass =
+  "mt-2 w-full rounded-xl border border-ink/15 bg-cream px-4 py-3 text-sm text-ink outline-none transition placeholder:text-ink/35 focus:border-orange focus:ring-4 focus:ring-yellow/40";
+
 export default function LoginPage() {
   return (
-    <main className="flex min-h-[100svh] flex-col bg-[radial-gradient(ellipse_at_top,#ffe9a0_0%,#ffffff_55%)]">
-      <div className="mx-auto flex w-full max-w-md flex-1 flex-col justify-center px-5 py-16">
-        <Link href="/" className="mb-8 inline-block w-fit" aria-label={site.name}>
+    <main className="hex-pattern relative flex min-h-svh flex-col items-center justify-center bg-cream px-5 py-16">
+      <div className="w-full max-w-md rounded-[2rem] border border-ink/10 bg-paper p-8 shadow-2xl shadow-ink/10 sm:p-10">
+        <Link href="/" className="inline-block" aria-label={`${site.name} - home`}>
           <Image
             src="/images/logo.png"
             alt={site.name}
             width={220}
-            height={56}
+            height={108}
             priority
-            className="h-11 w-auto"
+            className="h-14 w-auto"
           />
         </Link>
-        <Link
-          href="/"
-          className="mb-10 text-sm font-medium text-orange transition hover:text-orange-deep"
-        >
-          ← Back to site
-        </Link>
-        
 
-        <form className="mt-8 space-y-4" action="/dashboard" method="get">
+        <p className="mt-8 text-xs font-semibold uppercase tracking-[0.22em] text-orange">
+          Staff only
+        </p>
+        <h1 className="mt-2 font-display text-4xl font-medium tracking-tight text-ink">
+          Welcome <em className="font-normal">back.</em>
+        </h1>
+
+        <form className="mt-8 space-y-5" action="/dashboard" method="get">
           <label className="block">
             <span className="text-sm font-medium text-ink">Email</span>
             <input
@@ -37,7 +40,7 @@ export default function LoginPage() {
               name="email"
               required
               autoComplete="username"
-              className="mt-1.5 w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-sm text-ink outline-none ring-orange/30 focus:ring-2"
+              className={inputClass}
               placeholder="you@pollinators.ke"
             />
           </label>
@@ -48,17 +51,24 @@ export default function LoginPage() {
               name="password"
               required
               autoComplete="current-password"
-              className="mt-1.5 w-full rounded-md border border-ink/15 bg-white px-3 py-2.5 text-sm text-ink outline-none ring-orange/30 focus:ring-2"
+              className={inputClass}
               placeholder="••••••••"
             />
           </label>
           <button
             type="submit"
-            className="mt-2 w-full rounded-full bg-orange px-4 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
+            className="mt-2 w-full rounded-full bg-ink px-4 py-3.5 text-sm font-semibold text-cream transition hover:bg-orange"
           >
             Continue to dashboard
           </button>
         </form>
+
+        <Link
+          href="/"
+          className="mt-8 inline-block text-sm font-semibold text-orange transition hover:text-orange-deep"
+        >
+          ← Back to site
+        </Link>
       </div>
     </main>
   );

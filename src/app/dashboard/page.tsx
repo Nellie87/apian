@@ -7,12 +7,12 @@ export const metadata = {
 
 export default function DashboardPage() {
   return (
-    <main className="min-h-[100svh] bg-mist px-5 py-16">
-      <div className="mx-auto max-w-lg">
-        <p className="text-sm font-semibold uppercase tracking-[0.18em] text-orange">
+    <main className="hex-pattern flex min-h-svh items-center justify-center bg-cream px-5 py-16">
+      <div className="w-full max-w-lg rounded-[2rem] border border-ink/10 bg-paper p-8 shadow-2xl shadow-ink/10 sm:p-10">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-orange">
           Staff only
         </p>
-        <h1 className="mt-3 font-display text-3xl font-medium tracking-tight text-ink">
+        <h1 className="mt-3 font-display text-4xl font-medium tracking-tight text-ink">
           Dashboard
         </h1>
         <p className="mt-4 text-base leading-relaxed text-ink-muted">
