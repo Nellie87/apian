@@ -3,40 +3,50 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const links = [
-  { href: "#honey", label: "Honey" },
-  { href: "#products", label: "Shop" },
-  { href: "#services", label: "Services" },
-  { href: "#news", label: "News" },
-  { href: "#visit", label: "Visit" },
+  { href: "/#honey", label: "Honey" },
+  { href: "/products", label: "Shop" },
+  { href: "/#services", label: "Services" },
+  { href: "/#visit", label: "Visit" },
 ];
+
+function FooterHeading({ children }: { children: React.ReactNode }) {
+  return (
+    <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-[#c56f14]">
+      {children}
+    </p>
+  );
+}
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-ink/10 bg-[#fffaf3] text-ink">
-      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-12 md:gap-8 lg:py-16">
+    <footer className="bg-white text-ink">
+      <div
+        aria-hidden
+        className="h-px w-full bg-gradient-to-r from-transparent via-yellow-deep/60 to-transparent"
+      />
+
+      <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 md:grid-cols-12 md:gap-8 lg:py-20">
         <div className="md:col-span-5">
           <Image
             src="/images/logo.png"
             alt={site.name}
             width={240}
             height={62}
-            className="h-14 w-auto"
+            className="h-12 w-auto"
           />
-          <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-muted">
+          <p className="mt-6 max-w-xs font-display text-base italic leading-relaxed text-ink-muted">
             {site.tagline}
           </p>
         </div>
 
         <nav aria-label="Footer" className="md:col-span-3">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/45">
-            Explore
-          </p>
-          <ul className="mt-4 space-y-2.5 text-sm">
+          <FooterHeading>Explore</FooterHeading>
+          <ul className="mt-5 space-y-3 text-sm">
             {links.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-ink/80 transition hover:text-orange"
+                  className="text-ink/75 transition hover:text-[#c56f14]"
                 >
                   {link.label}
                 </a>
@@ -46,15 +56,13 @@ export function SiteFooter() {
         </nav>
 
         <div className="md:col-span-4">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/45">
-            Visit the apiary
-          </p>
-          <address className="mt-4 space-y-2.5 text-sm not-italic text-ink/80">
+          <FooterHeading>Visit the apiary</FooterHeading>
+          <address className="mt-5 space-y-3 text-sm not-italic text-ink/75">
             <p>{site.location}</p>
             <p>
               <a
                 href={`tel:${site.phoneTel}`}
-                className="transition hover:text-orange"
+                className="transition hover:text-[#c56f14]"
               >
                 {site.phoneDisplay}
               </a>
@@ -62,7 +70,7 @@ export function SiteFooter() {
             <p>
               <a
                 href={`mailto:${site.email}`}
-                className="transition hover:text-orange"
+                className="transition hover:text-[#c56f14]"
               >
                 {site.email}
               </a>
@@ -72,13 +80,11 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-ink/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-5 text-xs text-ink/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-[11px] uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
-            © {new Date().getFullYear()} {site.name}. All rights reserved.
+            © {new Date().getFullYear()} {site.name}
           </p>
-          <Link href="/login" className="transition hover:text-orange">
-            Staff login
-          </Link>
+          <p>Made by Nelicore Systems</p>
         </div>
       </div>
     </footer>

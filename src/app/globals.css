@@ -5,6 +5,7 @@
   --yellow-deep: #e8a812;
   --orange: #e87a1a;
   --orange-deep: #d4650f;
+  --leaf: #4f6b1a;
   --ink: #2a1a12;
   --ink-muted: #6b5a4e;
   --cream: #ffffff;
@@ -20,6 +21,7 @@
   --color-yellow-deep: var(--yellow-deep);
   --color-orange: var(--orange);
   --color-orange-deep: var(--orange-deep);
+  --color-leaf: var(--leaf);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-cream: var(--cream);
@@ -108,6 +110,34 @@ body {
   }
 }
 
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-sheet {
+  animation: sheet-up 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.animate-dialog {
+  animation: dialog-pop 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .animate-fade-up {
   animation: fade-up 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -178,6 +208,8 @@ body {
   .animate-fade-in,
   .animate-soft-rise,
   .animate-hex-pop,
+  .animate-sheet,
+  .animate-dialog,
   .honey-drip-drop,
   .honey-drip-blob {
     animation: none;

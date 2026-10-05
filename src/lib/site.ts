@@ -7,97 +7,8 @@ export const site = {
   phoneDisplay: "+254 712 345 678",
   phoneTel: "+254712345678",
   whatsapp: "254712345678",
-  email: "hello@pollinators.ke",
+  email: "apiannaturals@gmail.com",
 } as const;
-
-export const productCategories = [
-  { id: "all", label: "Featured Products" },
-  { id: "honey", label: "Best Sellers" },
-  { id: "skincare", label: "New Products" },
-] as const;
-
-export type ProductCategoryId = (typeof productCategories)[number]["id"];
-
-export const products = [
-  {
-    name: "Raw Multifloral Honey",
-    category: "honey" as const,
-    description:
-      "Unheated honey from our Ruiru apiaries - floral, full-bodied, and packed straight from the comb.",
-    sizes: "250g · 500g · 1kg",
-    price: "KSh 850",
-    compareAt: "KSh 1,100",
-    image: "/images/honey.jpg",
-    alt: "Glass jars of golden honey",
-    featured: true,
-    sale: true,
-  },
-  {
-    name: "Beeswax Skincare",
-    category: "skincare" as const,
-    description:
-      "Hand-poured balms that soothe dry skin with beeswax, honey, and plant oils.",
-    sizes: "30ml · 50ml",
-    price: "KSh 650",
-    compareAt: "KSh 800",
-    image: "/images/beeswax.jpg",
-    alt: "Beeswax skincare balm",
-    featured: true,
-    sale: true,
-  },
-  {
-    name: "Propolis Tincture",
-    category: "honey" as const,
-    description:
-      "Resinous bee propolis in a simple tincture for daily immune and throat support.",
-    sizes: "30ml · 50ml",
-    price: "KSh 1,200",
-    compareAt: null,
-    image: "/images/propolis.jpg",
-    alt: "Propolis and honeycomb",
-    featured: true,
-    sale: false,
-  },
-  {
-    name: "Honey Shampoo",
-    category: "skincare" as const,
-    description:
-      "A gentle cleanse with honey and botanicals - soft hair without harsh detergents.",
-    sizes: "250ml · 500ml",
-    price: "KSh 750",
-    compareAt: "KSh 900",
-    image: "/images/shampoo.jpg",
-    alt: "Natural shampoo bottles",
-    featured: true,
-    sale: true,
-  },
-  {
-    name: "Beeswax Soap",
-    category: "skincare" as const,
-    description:
-      "Cold-process bars enriched with beeswax and honey for everyday washing.",
-    sizes: "100g bar",
-    price: "KSh 350",
-    compareAt: null,
-    image: "/images/soap.jpg",
-    alt: "Handmade natural soap bars",
-    featured: false,
-    sale: false,
-  },
-  {
-    name: "Honey Granola",
-    category: "honey" as const,
-    description:
-      "Crunchy clusters roasted with our honey - breakfast from the hive.",
-    sizes: "400g · 800g",
-    price: "KSh 980",
-    compareAt: "KSh 1,150",
-    image: "/images/granola.jpg",
-    alt: "Honey granola in a bowl",
-    featured: false,
-    sale: true,
-  },
-] as const;
 
 export const honeyFeatures = [
   {
@@ -146,54 +57,35 @@ export const testimonials = [
   },
 ] as const;
 
-export const newsPosts = [
-  {
-    title: "Why raw honey tastes different every season",
-    excerpt:
-      "Floral forage shifts with the rains - here’s what that means in your jar.",
-    image: "/images/honey.jpg",
-    alt: "Golden honey in glass jars",
-  },
-  {
-    title: "A morning among the Ruiru hives",
-    excerpt:
-      "Walk the apiary with us: inspections, smoke, and the quiet of working bees.",
-    image: "/images/hero-apiary.jpg",
-    alt: "Beehives in an apiary meadow",
-  },
-  {
-    title: "Apitherapy basics for everyday wellness",
-    excerpt:
-      "Honey, propolis, and beeswax - simple ways Kenyan families use bee products.",
-    image: "/images/propolis.jpg",
-    alt: "Propolis near honeycomb",
-  },
-] as const;
-
 export const services = [
   {
     name: "Apitourism",
-    image: "/images/service-apitourism.jpg",
-    alt: "Beekeeper tending a hive among garden flowers",
+    detail: "Guided apiary visits - meet the bees, taste fresh honey, and learn the craft.",
+    image: "/images/service-apitourism-v2.jpg",
+    alt: "Two visitors in beekeeping veils smiling in a wildflower apiary",
   },
   {
     name: "Inspection",
-    image: "/images/service-inspection.jpg",
-    alt: "Beekeeper examining a honeycomb frame covered in bees",
+    detail: "Health checks, queen status, and colony advice from experienced keepers.",
+    image: "/images/service-inspection-v2.jpg",
+    alt: "Beekeeper holding a golden honeycomb frame covered in bees",
   },
   {
     name: "Bee removal / relocation",
-    image: "/images/service-removal.jpg",
-    alt: "Beekeeper handling a frame dense with honeybees",
+    detail: "Safe capture and relocation of swarms for homes, farms, and workplaces.",
+    image: "/images/service-removal-v2.jpg",
+    alt: "Beekeeper moving a frame of honeybees into a wooden hive box",
   },
   {
     name: "Training",
-    image: "/images/service-harvest.jpg",
-    alt: "Group of trainees in bee suits working at a hive",
+    detail: "Hands-on beekeeping courses for beginners and farmers ready to grow.",
+    image: "/images/service-training-v2.jpg",
+    alt: "Instructor showing a hive frame to smiling beekeeping students",
   },
   {
     name: "Bee hive installation",
-    image: "/images/service-installation.jpg",
-    alt: "Painted wooden hives set in a meadow",
+    detail: "Langstroth and top-bar hive setup, with starter colonies where needed.",
+    image: "/images/service-installation-v2.jpg",
+    alt: "Row of new wooden hives in a sunny yellow wildflower meadow",
   },
 ] as const;

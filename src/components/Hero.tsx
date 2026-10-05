@@ -6,7 +6,7 @@ export function Hero() {
       <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-2 items-center gap-3 px-4 pb-8 pt-20 sm:gap-6 sm:px-10 sm:pb-10 sm:pt-28 lg:min-h-[720px] lg:gap-8 lg:px-12 lg:py-16 xl:px-16">
         <div className="min-w-0">
           <p className="animate-fade-up text-[9px] font-semibold uppercase tracking-[0.16em] text-ink/55 sm:text-[11px] sm:tracking-[0.22em] lg:text-xs">
-            Naturally harvested in Ruiru
+            Naturally harvested 
           </p>
 
           <h1 className="animate-fade-up delay-1 mt-3 font-display text-[clamp(1.85rem,4.8vw,4.35rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink sm:mt-4">
@@ -26,7 +26,7 @@ export function Hero() {
               href="#honey"
               className="inline-flex min-h-10 items-center justify-center px-1 text-xs font-semibold text-ink/75 transition hover:text-ink sm:min-h-12 sm:px-2 sm:text-sm"
             >
-              Our story
+              Why Us
             </a>
           </div>
         </div>

@@ -1,6 +1,5 @@
 import { Features } from "@/components/Features";
 import { Hero } from "@/components/Hero";
-import { News } from "@/components/News";
 import { Products } from "@/components/Products";
 import { Services } from "@/components/Services";
 import { SiteFooter } from "@/components/SiteFooter";
@@ -18,7 +17,6 @@ export default function Home() {
         <Products />
         <Services />
         <Testimonials />
-        <News />
         <Visit />
       </main>
       <SiteFooter />

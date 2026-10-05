@@ -1,134 +1,210 @@
-"use client";
+﻿"use client";
 
-import Image from "next/image";
-import { useState } from "react";
-import { SectionTitle } from "@/components/SectionTitle";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import {
-  productCategories,
-  products,
-  type ProductCategoryId,
-} from "@/lib/site";
-
-function Stars() {
-  return (
-    <div className="flex justify-center gap-0.5 text-orange" aria-hidden>
-      {Array.from({ length: 5 }).map((_, i) => (
-        <svg key={i} viewBox="0 0 20 20" className="size-3.5 fill-current">
-          <path d="M10 1.5 12.4 7l6 .5-4.6 4 1.4 5.8L10 14.8 4.8 17.3l1.4-5.8L1.6 7.5l6-.5L10 1.5Z" />
-        </svg>
-      ))}
-    </div>
-  );
-}
-
-function ProductCard({
-  product,
-  showTimer,
-}: {
-  product: (typeof products)[number];
-  showTimer?: boolean;
-}) {
-  return (
-    <article className="group text-center">
-      <div className="relative mx-auto aspect-square max-w-[240px] overflow-hidden bg-mist">
-        {showTimer && product.sale ? (
-          <div className="absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded bg-ink/90 px-2.5 py-1 text-[10px] font-semibold tracking-wide text-white">
-            02D : 15 : 22 : 32
-          </div>
-        ) : null}
-        <Image
-          src={product.image}
-          alt={product.alt}
-          fill
-          sizes="(max-width: 640px) 70vw, 240px"
-          className="object-cover transition duration-500 group-hover:scale-[1.04]"
-        />
-      </div>
-      <div className="mt-4">
-        <Stars />
-        <h3 className="mt-2 font-display text-lg font-semibold text-ink">
-          {product.name}
-        </h3>
-        <p className="mt-1.5 flex items-center justify-center gap-2 text-sm">
-          <span className="font-semibold text-orange">{product.price}</span>
-          {product.compareAt ? (
-            <span className="text-ink-muted line-through">{product.compareAt}</span>
-          ) : null}
-        </p>
-      </div>
-    </article>
-  );
-}
+  BenefitsDialog,
+  Icon,
+  ProductCard,
+  type SelectedProduct,
+} from "@/components/ProductCatalog";
+import { SectionTitle } from "@/components/SectionTitle";
+import { catalog } from "@/lib/catalog";
 
 export function Products() {
-  const [tab, setTab] = useState<ProductCategoryId>("all");
+  const [tab, setTab] = useState(catalog[0].id);
+  const [selected, setSelected] = useState<SelectedProduct | null>(null);
 
-  const special = products.filter((p) => p.featured).slice(0, 4);
+  const activeCategory = catalog.find((c) => c.id === tab) ?? catalog[0];
 
-  const trending =
-    tab === "all"
-      ? products.slice(0, 4)
-      : products.filter((p) => p.category === tab).slice(0, 4);
+  // Show the mobile bottom category bar only while the products section is on screen.
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { threshold: 0.1 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
-      <section id="products" className="bg-white">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
-          <SectionTitle title="Our   Products" />
-          <p className="mt-4 text-md col-span-full font-bold text-orange text-center">
-            We offer a wide range of products to meet your needs. <br />Filter by the categories below.
-          </p>
-          <div className="mt-12 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-10">
-            {special.map((product) => (
-              <ProductCard key={product.name} product={product} showTimer />
-            ))}
+      <section id="products" ref={sectionRef} className="bg-white">
+        <div className="mx-auto max-w-6xl px-5 pb-28 pt-16 sm:px-8 lg:py-20">
+          <SectionTitle title="Our Products" />
+        
+          <div className="mt-6 lg:mt-12 lg:grid lg:grid-cols-[18rem_1fr] lg:gap-10">
+            {/* Phones/tablets: chip bar pinned to the bottom (thumb reach) while this section is on screen */}
+            <nav
+              aria-label="Product categories"
+              aria-hidden={!inView}
+              inert={!inView}
+              className={`fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur transition-transform duration-300 lg:hidden ${
+                inView ? "translate-y-0" : "translate-y-full"
+              }`}
+            >
+              <ul className="flex gap-2 overflow-x-auto px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                {catalog.map((category) => {
+                  const active = tab === category.id;
+                  return (
+                    <li key={category.id} className="shrink-0">
+                      <button
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => setTab(category.id)}
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
+                          active
+                            ? "border-orange bg-orange text-white shadow-sm shadow-orange/30"
+                            : "border-ink/15 text-ink/80 hover:border-orange"
+                        }`}
+                      >
+                        <Icon name={category.icon} className="size-4" />
+                        {category.label}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            {/* Desktop: category tree with products nested */}
+            <nav
+              aria-label="Product categories"
+              className="hidden self-start rounded-3xl bg-white p-2 shadow-sm ring-1 ring-ink/10 lg:block"
+            >
+              <ul className="space-y-1">
+                {catalog.map((category) => {
+                  const active = tab === category.id;
+                  return (
+                    <li key={category.id}>
+                      <button
+                        type="button"
+                        aria-expanded={active}
+                        aria-controls={`tree-${category.id}`}
+                        onClick={() => setTab(category.id)}
+                        className={`flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-left text-sm font-semibold transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
+                          active
+                            ? "bg-orange text-white shadow-md shadow-orange/30"
+                            : "text-ink hover:bg-yellow/30"
+                        }`}
+                      >
+                        <span
+                          className={`grid size-8 shrink-0 place-items-center rounded-full ${
+                            active ? "bg-white/20" : "bg-yellow/40 text-orange"
+                          }`}
+                        >
+                          <Icon name={category.icon} className="size-4.5" />
+                        </span>
+                        <span className="flex-1 leading-tight">
+                          {category.label}
+                        </span>
+                        <span
+                          className={`text-xs font-medium ${
+                            active ? "text-white/80" : "text-ink/40"
+                          }`}
+                        >
+                          {category.products.length}
+                        </span>
+                        <svg
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden
+                          className={`size-4 shrink-0 transition-transform duration-200 ${
+                            active ? "rotate-90" : ""
+                          }`}
+                        >
+                          <path d="m7 4 6 6-6 6" />
+                        </svg>
+                      </button>
+
+                      {/* Nested products */}
+                      <div
+                        id={`tree-${category.id}`}
+                        className={`grid transition-all duration-300 ${
+                          active
+                            ? "grid-rows-[1fr] opacity-100"
+                            : "grid-rows-[0fr] opacity-0"
+                        }`}
+                      >
+                        <ul
+                          className="ml-7 overflow-hidden border-l-2 border-yellow pl-3"
+                          inert={!active}
+                        >
+                          {category.products.map((product) => (
+                            <li key={product.id} className="first:mt-2 last:mb-2">
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setSelected({ product, category })
+                                }
+                                className="w-full rounded-lg px-2.5 py-1.5 text-left text-sm text-ink-muted transition hover:bg-yellow/30 hover:text-ink focus-visible:outline-2 focus-visible:outline-orange"
+                              >
+                                {product.name}
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+
+            <div className="mt-6 lg:mt-0">
+              <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
+                <div>
+                  <h3 className="font-display text-2xl font-bold tracking-tight">
+                    {activeCategory.label}
+                  </h3>
+                  <p className="mt-0.5 text-sm text-ink-muted">
+                    {activeCategory.blurb}
+                  </p>
+                </div>
+              </div>
+              <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
+                {activeCategory.products.slice(0, 6).map((product, index) => (
+                  <ProductCard
+                    key={`${activeCategory.id}-${product.id}`}
+                    eager={index < 3}
+                    product={product}
+                    icon={activeCategory.icon}
+                    onOpen={(p) =>
+                      setSelected({ product: p, category: activeCategory })
+                    }
+                  />
+                ))}
+              </div>
+              <div className="mt-10 flex flex-wrap justify-center gap-3 text-center lg:justify-start">
+                <Link
+                  href={`/products#${activeCategory.id}`}
+                  className="inline-flex rounded-full bg-orange px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
+                >
+                  {activeCategory.products.length > 6
+                    ? `See all ${activeCategory.label}`
+                    : "View full range"}
+                </Link>
+                <a
+                  href="#visit"
+                  className="inline-flex rounded-full border border-ink/20 px-7 py-3 text-sm font-semibold text-ink transition hover:border-ink"
+                >
+                  Enquire to Order
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <section className="bg-mist">
-        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:py-20">
-          <SectionTitle title="Trending Products" />
-          <div
-            className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2"
-            role="tablist"
-            aria-label="Product tabs"
-          >
-            {productCategories.map((category) => {
-              const active = tab === category.id;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  role="tab"
-                  aria-selected={active}
-                  onClick={() => setTab(category.id)}
-                  className={`text-sm font-semibold transition ${
-                    active
-                      ? "text-orange"
-                      : "text-ink-muted hover:text-ink"
-                  }`}
-                >
-                  {category.label}
-                </button>
-              );
-            })}
-          </div>
-          <div className="mt-12 grid grid-cols-2 gap-8 lg:grid-cols-4 lg:gap-10">
-            {trending.map((product) => (
-              <ProductCard key={`trend-${product.name}`} product={product} />
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <a
-              href="#visit"
-              className="inline-flex rounded-full bg-orange px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
-            >
-              Enquire to Order
-            </a>
-          </div>
-        </div>
-      </section>
+      <BenefitsDialog selected={selected} onClose={() => setSelected(null)} />
     </>
   );
 }

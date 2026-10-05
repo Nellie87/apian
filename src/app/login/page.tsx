@@ -27,13 +27,7 @@ export default function LoginPage() {
         >
           ← Back to site
         </Link>
-        <h1 className="font-display text-3xl font-medium tracking-tight text-ink">
-          Staff login
-        </h1>
-        <p className="mt-3 text-sm leading-relaxed text-ink-muted">
-          This portal is for {site.shortName} team members only. The public site stays
-          separate from the staff dashboard.
-        </p>
+        
 
         <form className="mt-8 space-y-4" action="/dashboard" method="get">
           <label className="block">
