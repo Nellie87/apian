@@ -25,10 +25,10 @@ function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"
       viewBox="0 0 96 40"
       fill="none"
       aria-hidden
-      className={`pointer-events-none absolute top-1/2 h-5 w-11 -translate-y-1/2 text-[#8a7364] sm:h-6 sm:w-14 lg:h-8 lg:w-24 ${
+      className={`pointer-events-none absolute top-1/2 h-8 w-24 -translate-y-1/2 text-[#8a7364] ${
         onLeft
-          ? "-right-8 sm:-right-12 lg:-right-[4.75rem]"
-          : "-left-8 sm:-left-12 lg:-left-[4.75rem]"
+          ? "-right-[4.75rem]"
+          : "-left-[4.75rem]"
       }`}
     >
       <path d={curve} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -40,7 +40,38 @@ function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"
 export function Features() {
   return (
     <section id="honey" className="relative z-10 overflow-x-clip">
-      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-8 sm:py-10 lg:py-12">
+      {/* Lets the honeycomb pattern fade back in after the hero's fade-out */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-32 bg-gradient-to-b from-white to-transparent sm:h-40"
+      />
+      <div className="mx-auto max-w-6xl px-3 pb-6 pt-10 sm:px-8 sm:pb-10 sm:pt-16 lg:pb-12 lg:pt-20">
+        {/* Small honeycomb cluster as a section marker */}
+        <div aria-hidden className="relative -top-8 mb-6 flex justify-center sm:-top-12 sm:mb-8 lg:-top-16">
+          <svg viewBox="0 0 56 40" className="h-10 w-14 text-[#e8a812]" strokeLinejoin="round">
+            <path
+              d="M28 4 34.93 8v8L28 20l-6.93-4V8z"
+              fill="currentColor"
+              stroke="currentColor"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M19.34 19 26.27 23v8l-6.93 4-6.93-4v-8z"
+              fill="none"
+              stroke="currentColor"
+              strokeOpacity="0.55"
+              strokeWidth="1.5"
+            />
+            <path
+              d="M36.66 19 43.59 23v8l-6.93 4-6.93-4v-8z"
+              fill="currentColor"
+              fillOpacity="0.18"
+              stroke="currentColor"
+              strokeOpacity="0.55"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
         <header className="text-center">
           <p className="font-display text-2xl font-medium tracking-tight text-ink sm:text-4xl">
             Why our
@@ -50,25 +81,28 @@ export function Features() {
           </h2>
         </header>
 
-        {/* Phone layout: jar on top, the four points in a readable 2x2 grid (no shrinking) */}
-        <div className="mt-6 sm:hidden">
-          <div className="relative mx-auto aspect-[728/665] w-40">
+        {/* Below lg: jar on top, the four points in a readable 2x2 grid (no shrinking) */}
+        <div className="mt-6 lg:hidden">
+          <div className="relative mx-auto aspect-[728/665] w-40 sm:w-56">
             <Image
               src="/images/honey-jar.png"
               alt="Jar of golden honey with a wooden dipper and honeycomb"
               fill
-              sizes="160px"
+              sizes="(min-width: 640px) 224px, 160px"
               className="object-contain drop-shadow-[0_22px_28px_rgba(90,55,20,0.16)]"
             />
           </div>
-          <ul className="mt-5 grid grid-cols-2 gap-x-5 gap-y-6 px-1">
+          <ul className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
             {honeyFeatures.map((feature) => {
               const detail = feature.detail
                 .replace(/^-\s*/, "")
                 .replace(/\s+\./, ".")
                 .replace(/^./, (c) => c.toUpperCase());
               return (
-                <li key={feature.lead} className="border-t border-[#e8a812]/50 pt-3">
+                <li
+                  key={feature.lead}
+                  className="rounded-xl border border-[#e8a812]/30 border-t-2 border-t-[#e8a812] bg-white/90 p-3 shadow-[0_6px_16px_-10px_rgba(90,55,20,0.35)] sm:p-4"
+                >
                   <h3 className="text-[15px] font-semibold leading-snug text-ink">{feature.lead}</h3>
                   <p className="mt-1 text-[14px] leading-snug text-[#5e4e44]">{detail}</p>
                 </li>
@@ -77,36 +111,34 @@ export function Features() {
           </ul>
         </div>
 
-        <div className="relative mx-auto mt-8 hidden w-full min-w-0 max-w-5xl sm:block">
-          <div className="grid grid-cols-2 items-center gap-x-52 lg:gap-x-[19rem] xl:gap-x-[23rem]">
-            {(["left", "right"] as const).map((side) => (
-              <ul
-                key={side}
-                className={`min-w-0 space-y-8 ${
-                  side === "left" ? "pr-1 text-right" : "pl-1 text-left"
-                } lg:space-y-10 lg:px-0 lg:text-center`}
-              >
-                {honeyFeatures
-                  .filter((feature) => onLeft[feature.place] === (side === "left"))
-                  .map((feature) => (
-                    <li key={feature.lead} className="relative min-w-0 lg:mx-auto lg:max-w-[16rem]">
-                      <CalloutArrow place={feature.place} />
-                      <p className="text-sm leading-snug text-[#5e4e44] lg:text-[15px] lg:leading-relaxed">
-                        <span className="font-semibold text-ink">{feature.lead}</span>{" "}
-                        {feature.detail}
-                      </p>
-                    </li>
-                  ))}
-              </ul>
-            ))}
-          </div>
+        {/* lg+: points | jar | points as real grid columns. The jar is in flow, so nothing drifts out of alignment. */}
+        <div className="mx-auto mt-8 hidden w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-x-24 lg:grid xl:gap-x-28">
+          {(["left", "right"] as const).map((side) => (
+            <ul
+              key={side}
+              className={`row-start-1 flex min-w-0 flex-col justify-between gap-10 py-4 ${
+                side === "left" ? "col-start-1 items-end text-right" : "col-start-3 items-start text-left"
+              }`}
+            >
+              {honeyFeatures
+                .filter((feature) => onLeft[feature.place] === (side === "left"))
+                .map((feature) => (
+                  <li key={feature.lead} className="relative min-w-0 max-w-[16rem]">
+                    <CalloutArrow place={feature.place} />
+                    <p className="text-[15px] leading-relaxed text-[#5e4e44]">
+                      <span className="font-semibold text-ink">{feature.lead}</span> {feature.detail}
+                    </p>
+                  </li>
+                ))}
+            </ul>
+          ))}
 
-          <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-[728/665] w-28 -translate-x-1/2 -translate-y-1/2 sm:w-48 lg:w-[18rem] xl:w-[22rem]">
+          <div className="pointer-events-none relative col-start-2 row-start-1 aspect-[728/665] w-[18rem] self-center xl:w-[22rem]">
             <Image
               src="/images/honey-jar.png"
               alt="Jar of golden honey with a wooden dipper and honeycomb"
               fill
-              sizes="(min-width: 1280px) 352px, (min-width: 1024px) 288px, (min-width: 640px) 192px, 84px"
+              sizes="(min-width: 1280px) 352px, 288px"
               className="object-contain drop-shadow-[0_22px_28px_rgba(90,55,20,0.16)]"
             />
           </div>

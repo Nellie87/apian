@@ -3,7 +3,12 @@ import Image from "next/image";
 export function Hero() {
   return (
     <section className="relative isolate text-ink">
-      <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-1 items-center gap-6 px-6 pb-8 pt-24 md:grid-cols-2 md:gap-6 md:px-10 md:pb-6 md:pt-28 lg:min-h-[600px] lg:gap-8 lg:px-12 lg:pb-8 lg:pt-24 xl:px-16">
+      {/* Fades the body's honeycomb pattern out toward the bottom of the hero */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-b from-transparent to-white sm:h-40"
+      />
+      <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-1 items-center gap-6 px-6 pb-4 pt-24 md:grid-cols-2 md:gap-6 md:px-10 md:pb-6 md:pt-28 lg:min-h-[600px] lg:gap-8 lg:px-12 lg:pb-8 lg:pt-24 xl:px-16">
         <div className="min-w-0 text-center md:text-left">
           <p className="animate-fade-up text-[11px] font-semibold uppercase tracking-[0.22em] text-ink/55 lg:text-xs">
             Naturally harvested
