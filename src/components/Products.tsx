@@ -1,9 +1,10 @@
 ﻿"use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
   BenefitsDialog,
+  CategoryFilter,
   Icon,
   ProductCard,
   type SelectedProduct,
@@ -11,21 +12,44 @@ import {
 import { SectionTitle } from "@/components/SectionTitle";
 import { catalog } from "@/lib/catalog";
 
+const desktopQuery = "(min-width: 1024px)";
+
+function useIsDesktop() {
+  return useSyncExternalStore(
+    (notify) => {
+      const mq = window.matchMedia(desktopQuery);
+      mq.addEventListener("change", notify);
+      return () => mq.removeEventListener("change", notify);
+    },
+    () => window.matchMedia(desktopQuery).matches,
+    () => false,
+  );
+}
+
 export function Products() {
-  const [tab, setTab] = useState(catalog[0].id);
+  // "all" = every product (phones/tablets default); otherwise a category id.
+  const [tab, setTab] = useState("all");
   const [selected, setSelected] = useState<SelectedProduct | null>(null);
+  const isDesktop = useIsDesktop();
 
-  const activeCategory = catalog.find((c) => c.id === tab) ?? catalog[0];
+  // Desktop always has a category open in the sidebar tree.
+  const activeCategory =
+    catalog.find((c) => c.id === tab) ?? catalog[0];
+  const showAll = !isDesktop && tab === "all";
+  const visibleCategories = showAll ? catalog : [activeCategory];
 
-  // Show the mobile bottom category bar only while the products section is on screen.
+  // Show the floating filter button only while the products section is on screen.
   const sectionRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const el = sectionRef.current;
     if (!el) return;
     const observer = new IntersectionObserver(
       ([entry]) => setInView(entry.isIntersecting),
-      { threshold: 0.1 },
+      // Any overlap counts: the section is very tall when every product is
+      // listed, so a percentage threshold could never be reached.
+      { threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -33,44 +57,11 @@ export function Products() {
 
   return (
     <>
-      <section id="products" ref={sectionRef} className="bg-white">
+      <section id="products" ref={sectionRef}>
         <div className="mx-auto max-w-6xl px-5 pb-20 pt-10 sm:px-8 sm:pt-12 lg:py-12">
           <SectionTitle title="Our Products" />
         
           <div className="mt-6 lg:mt-12 lg:grid lg:grid-cols-[18rem_1fr] lg:gap-10">
-            {/* Phones/tablets: chip bar pinned to the bottom (thumb reach) while this section is on screen */}
-            <nav
-              aria-label="Product categories"
-              aria-hidden={!inView}
-              inert={!inView}
-              className={`fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur transition-transform duration-300 lg:hidden ${
-                inView ? "translate-y-0" : "translate-y-full"
-              }`}
-            >
-              <ul className="flex gap-2 overflow-x-auto px-5 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                {catalog.map((category) => {
-                  const active = tab === category.id;
-                  return (
-                    <li key={category.id} className="shrink-0">
-                      <button
-                        type="button"
-                        aria-pressed={active}
-                        onClick={() => setTab(category.id)}
-                        className={`inline-flex items-center gap-1.5 rounded-full border px-4 py-1.5 text-sm font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange ${
-                          active
-                            ? "border-orange bg-orange text-white shadow-sm shadow-orange/30"
-                            : "border-ink/15 text-ink/80 hover:border-orange"
-                        }`}
-                      >
-                        <Icon name={category.icon} className="size-4" />
-                        {category.label}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-
             {/* Desktop: category tree with products nested */}
             <nav
               aria-label="Product categories"
@@ -160,37 +151,46 @@ export function Products() {
             </nav>
 
             <div className="mt-6 lg:mt-0">
-              <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
-                <div>
-                  <h3 className="font-display text-2xl font-bold tracking-tight">
-                    {activeCategory.label}
-                  </h3>
-                  <p className="mt-0.5 text-sm text-ink-muted">
-                    {activeCategory.blurb}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
-                {activeCategory.products.slice(0, 6).map((product, index) => (
-                  <ProductCard
-                    key={`${activeCategory.id}-${product.id}`}
-                    eager={index < 3}
-                    product={product}
-                    icon={activeCategory.icon}
-                    onOpen={(p) =>
-                      setSelected({ product: p, category: activeCategory })
-                    }
-                  />
+              <div ref={listRef} className="scroll-mt-4 space-y-10">
+                {visibleCategories.map((category, categoryIndex) => (
+                  <div key={category.id}>
+                    <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
+                      <div>
+                        <h3 className="font-display text-2xl font-bold tracking-tight">
+                          {category.label}
+                        </h3>
+                        <p className="mt-0.5 text-sm text-ink-muted">
+                          {category.blurb}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
+                      {(isDesktop
+                        ? category.products.slice(0, 6)
+                        : category.products
+                      ).map((product, index) => (
+                        <ProductCard
+                          key={`${category.id}-${product.id}`}
+                          eager={categoryIndex === 0 && index < 3}
+                          product={product}
+                          icon={category.icon}
+                          onOpen={(p) => setSelected({ product: p, category })}
+                        />
+                      ))}
+                    </div>
+                  </div>
                 ))}
               </div>
               <div className="mt-10 flex flex-wrap justify-center gap-3 text-center lg:justify-start">
                 <Link
-                  href={`/products#${activeCategory.id}`}
+                  href={showAll ? "/products" : `/products#${activeCategory.id}`}
                   className="inline-flex rounded-full bg-orange px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
                 >
-                  {activeCategory.products.length > 6
-                    ? `See all ${activeCategory.label}`
-                    : "View full range"}
+                  {showAll
+                    ? "View full catalogue"
+                    : isDesktop && activeCategory.products.length > 6
+                      ? `See all ${activeCategory.label}`
+                      : "View full range"}
                 </Link>
                 <a
                   href="#visit"
@@ -203,6 +203,27 @@ export function Products() {
           </div>
         </div>
       </section>
+
+      <CategoryFilter
+        hideFrom="lg"
+        visible={inView}
+        activeId={tab}
+        onChoose={(id) => {
+          setTab(id);
+          requestAnimationFrame(() =>
+            listRef.current?.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            }),
+          );
+        }}
+        options={catalog.map((c) => ({
+          id: c.id,
+          label: c.label,
+          icon: c.icon,
+          count: c.products.length,
+        }))}
+      />
 
       <BenefitsDialog selected={selected} onClose={() => setSelected(null)} />
     </>

@@ -19,7 +19,7 @@ function FooterHeading({ children }: { children: React.ReactNode }) {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-white text-ink">
+    <footer className="text-ink">
       <div
         aria-hidden
         className="h-px w-full bg-gradient-to-r from-transparent via-yellow-deep/60 to-transparent"
@@ -80,7 +80,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-ink/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-[11px] uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-xs uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
             © {new Date().getFullYear()} {site.name}
           </p>

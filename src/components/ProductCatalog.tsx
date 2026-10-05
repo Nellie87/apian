@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
@@ -149,7 +149,7 @@ export function ProductCard({
         <h3 className="font-display text-base font-semibold leading-snug text-ink sm:text-lg">
           {product.name}
         </h3>
-        <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-ink-muted sm:text-sm">
+        <p className="mt-1 line-clamp-2 text-[13px] leading-relaxed text-ink-muted sm:text-sm">
           {product.tagline}
         </p>
 
@@ -158,7 +158,7 @@ export function ProductCard({
             type="button"
             aria-haspopup="dialog"
             aria-label={`Benefits of ${product.name}`}
-            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-yellow px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-ink transition group-hover:bg-orange group-hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+            className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-yellow px-4 py-2.5 text-[13px] font-bold uppercase tracking-wider text-ink transition group-hover:bg-orange group-hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
           >
             Benefits
             <svg
@@ -346,7 +346,7 @@ export function BenefitsDialog({
               </p>
 
               <h3
-                className={`mt-5 flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.22em] ${theme.label}`}
+                className={`mt-5 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.22em] ${theme.label}`}
               >
                 Key benefits
                 <span aria-hidden className="h-px flex-1 bg-current opacity-30" />
@@ -356,7 +356,7 @@ export function BenefitsDialog({
                 {product.benefits.map((benefit) => (
                   <li
                     key={benefit}
-                    className={`flex items-start gap-3 text-[15px] font-semibold leading-snug ${theme.body}`}
+                    className={`flex items-start gap-3 text-base font-semibold leading-snug ${theme.body}`}
                   >
                     <span
                       className={`mt-px grid size-6 shrink-0 place-items-center rounded-full ${theme.check}`}
@@ -385,12 +385,12 @@ export function BenefitsDialog({
                 href={orderHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex rounded-full px-6 py-2.5 text-xs font-bold uppercase tracking-wider transition focus-visible:outline-2 focus-visible:outline-offset-2 ${theme.button}`}
+                className={`inline-flex min-h-11 items-center rounded-full px-6 py-2.5 text-sm font-bold uppercase tracking-wider transition focus-visible:outline-2 focus-visible:outline-offset-2 ${theme.button}`}
               >
                 Order now
               </a>
               <p
-                className={`mt-3 text-[11px] font-normal leading-snug opacity-70 ${theme.body}`}
+                className={`mt-3 text-xs font-normal leading-snug opacity-80 ${theme.body}`}
               >
                 Supports wellbeing - not a substitute for medical advice.
                 Check with a professional if pregnant or on medication.
@@ -402,6 +402,139 @@ export function BenefitsDialog({
     </dialog>
   );
 }
+/* ------------------------------------------------------------------ */
+/* Floating category filter (phones / tablets)                         */
+/* ------------------------------------------------------------------ */
+
+export type CategoryFilterOption = {
+  id: string;
+  label: string;
+  icon: CatalogIcon;
+  count: number;
+};
+
+const hideFromClass = {
+  md: "md:hidden",
+  lg: "lg:hidden",
+  xl: "xl:hidden",
+} as const;
+
+export function CategoryFilter({
+  options,
+  activeId,
+  onChoose,
+  visible = true,
+  hideFrom = "lg",
+}: {
+  options: CategoryFilterOption[];
+  activeId: string;
+  onChoose: (id: string) => void;
+  /** Only render the floating button while this is true. */
+  visible?: boolean;
+  /** Breakpoint from which the filter is hidden. */
+  hideFrom?: keyof typeof hideFromClass;
+}) {
+  const [open, setOpen] = useState(false);
+  const menuId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+
+  // Close on outside click or Escape.
+  useEffect(() => {
+    if (!open) return;
+    const onPointerDown = (e: PointerEvent) => {
+      if (!rootRef.current?.contains(e.target as Node)) setOpen(false);
+    };
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
+
+  const total = options.reduce((sum, o) => sum + o.count, 0);
+  const active = options.find((o) => o.id === activeId);
+  const activeLabel = active?.label ?? "All products";
+  const choose = (id: string) => {
+    onChoose(id);
+    setOpen(false);
+  };
+  const itemClass = (isActive: boolean) =>
+    `flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-semibold transition focus-visible:outline-2 focus-visible:outline-orange ${
+      isActive ? "bg-orange text-white" : "text-ink hover:bg-yellow/30"
+    }`;
+
+  if (!visible && !open) return null;
+
+  return (
+    <div
+      ref={rootRef}
+      className={`fixed bottom-5 right-5 z-40 ${hideFromClass[hideFrom]}`}
+    >
+      {open ? (
+        <div
+          id={menuId}
+          role="menu"
+          aria-label="Filter products by category"
+          className="absolute bottom-full right-0 mb-3 max-h-[70dvh] w-64 overflow-y-auto rounded-2xl bg-white p-2 shadow-xl ring-1 ring-ink/10"
+        >
+          <button
+            type="button"
+            role="menuitemradio"
+            aria-checked={activeId === "all"}
+            onClick={() => choose("all")}
+            className={itemClass(activeId === "all")}
+          >
+            <span className="flex-1">All products</span>
+            <span className="text-xs font-medium opacity-70">{total}</span>
+          </button>
+          {options.map((option) => (
+            <button
+              key={option.id}
+              type="button"
+              role="menuitemradio"
+              aria-checked={activeId === option.id}
+              onClick={() => choose(option.id)}
+              className={itemClass(activeId === option.id)}
+            >
+              <Icon name={option.icon} className="size-5 shrink-0" />
+              <span className="flex-1 leading-tight">{option.label}</span>
+              <span className="text-xs font-medium opacity-70">
+                {option.count}
+              </span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+
+      <button
+        type="button"
+        aria-haspopup="menu"
+        aria-expanded={open}
+        aria-controls={open ? menuId : undefined}
+        onClick={() => setOpen((o) => !o)}
+        className="inline-flex items-center gap-2 rounded-full bg-orange px-5 py-3 text-sm font-bold text-white shadow-lg shadow-orange/30 transition hover:bg-orange-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+      >
+        <svg
+          viewBox="0 0 20 20"
+          className="size-4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          aria-hidden
+        >
+          <path d="M3 5h14M6 10h8M9 15h2" />
+        </svg>
+        <span className="max-w-40 truncate">{activeLabel}</span>
+      </button>
+    </div>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /* Catalog                                                             */
 /* ------------------------------------------------------------------ */
@@ -450,20 +583,38 @@ export function ProductCatalog({
         </p>
       ) : null}
 
-      {/* Category quick-jump */}
+      {/* Category picker - every category visible at once, no scrolling */}
       <nav
-        aria-label="Product categories"
-        className="sticky top-0 z-20 mt-6 border-y border-ink/10 bg-white/90 backdrop-blur"
+        id="categories"
+        aria-labelledby="categories-heading"
+        className="mx-auto max-w-6xl scroll-mt-6 px-5 pt-10 sm:px-8"
       >
-        <ul className="mx-auto flex max-w-6xl gap-2 overflow-x-auto px-5 py-3 sm:justify-center sm:px-8 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <h2
+          id="categories-heading"
+          className="font-display text-2xl font-bold tracking-tight sm:text-3xl"
+        >
+          Shop by category
+        </h2>
+        <p className="mt-1 text-sm text-ink-muted">
+          Tap a category to jump straight to it.
+        </p>
+        <ul className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
           {categories.map((category) => (
-            <li key={category.id} className="shrink-0">
+            <li key={category.id}>
               <a
                 href={`#${category.id}`}
-                className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 px-4 py-1.5 text-sm font-medium text-ink/80 transition hover:border-orange hover:bg-orange hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+                className="group flex h-full flex-col items-start gap-3 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange hover:bg-yellow/20 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange sm:p-5"
               >
-                <Icon name={category.icon} className="size-4" />
-                {category.label}
+                <span className="grid size-12 place-items-center rounded-full bg-yellow text-ink transition group-hover:bg-orange group-hover:text-white">
+                  <Icon name={category.icon} className="size-7" />
+                </span>
+                <span className="font-display text-base font-semibold leading-snug text-ink sm:text-lg">
+                  {category.label}
+                </span>
+                <span className="mt-auto text-xs font-semibold uppercase tracking-wider text-ink/50">
+                  {category.products.length}{" "}
+                  {category.products.length === 1 ? "item" : "items"}
+                </span>
               </a>
             </li>
           ))}
@@ -476,7 +627,7 @@ export function ProductCatalog({
             key={category.id}
             id={category.id}
             aria-labelledby={`${category.id}-heading`}
-            className="scroll-mt-20"
+            className="scroll-mt-6"
           >
             <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
               <div className="flex items-center gap-3">
@@ -495,9 +646,12 @@ export function ProductCatalog({
                   </p>
                 </div>
               </div>
-              <span className="shrink-0 pb-1 text-xs font-semibold uppercase tracking-wider text-ink/45">
-                {category.products.length} items
-              </span>
+              <a
+                href="#categories"
+                className="shrink-0 pb-1 text-xs font-semibold uppercase tracking-wider text-ink/55 transition hover:text-orange focus-visible:outline-2 focus-visible:outline-orange"
+              >
+                &uarr; Categories
+              </a>
             </div>
             <p className="mt-3 text-sm text-ink-muted sm:hidden">
               {category.blurb}

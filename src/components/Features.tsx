@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { BadgeCheck, FlaskConical, Flower2, Truck } from "lucide-react";
 import { honeyFeatures } from "@/lib/site";
 
 const onLeft = {
@@ -7,6 +8,10 @@ const onLeft = {
   top: false,
   bottom: false,
 } as const;
+
+// One icon per feature, in the same order as `honeyFeatures` (collect, process, pure, local).
+// Plain black outline icons (Lucide), no fills.
+const featureIcons = [Flower2, FlaskConical, BadgeCheck, Truck] as const;
 
 function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"] }) {
   const onLeft = place === "leftTop" || place === "leftBottom";
@@ -39,9 +44,9 @@ function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"
 
 export function Features() {
   return (
-    <section id="honey" className="relative z-10 overflow-x-clip bg-white">
+    <section id="honey" className="relative z-10 overflow-x-clip">
       <div className="mx-auto max-w-6xl px-3 py-6 sm:px-8 sm:py-10 lg:py-12">
-        <header className="text-center">
+        <header className="hidden text-center sm:block">
           <p className="font-display text-2xl font-medium tracking-tight text-ink sm:text-4xl">
             Why our
           </p>
@@ -50,8 +55,69 @@ export function Features() {
           </h2>
         </header>
 
-        <div className="honey-fit relative mx-auto mt-6 w-full min-w-0 max-w-5xl sm:mt-8">
-          <div className="grid grid-cols-2 items-center gap-x-44 sm:gap-x-52 lg:gap-x-[19rem] xl:gap-x-[23rem]">
+        {/* Phone layout: honey drip strip on the left, white panel with icon badges */}
+        <div className="relative overflow-hidden rounded-[1.75rem] bg-white shadow-[0_20px_40px_-24px_rgba(90,55,20,0.5)] ring-1 ring-ink/10 sm:hidden">
+          <div
+            aria-hidden
+            className="absolute inset-y-0 left-0 w-[32%] bg-[#f6ecda]"
+          >
+            <Image
+              src="/images/honey-strip.jpg"
+              alt=""
+              fill
+              sizes="110px"
+              className="object-cover object-[46%_center]"
+            />
+          </div>
+
+          <div className="relative ml-[32%] bg-white pb-9 pt-8">
+            <h2 className="pl-14 pr-4 font-display text-[2.6rem] font-bold leading-[1.05] tracking-tight text-ink">
+              Why our
+              <br />
+              <span className="italic text-[#c56f14]">Honey</span>
+            </h2>
+
+            <ul className="mt-9 space-y-7">
+              {honeyFeatures.map((feature, index) => {
+                const detail = feature.detail
+                  .replace(/^-\s*/, "")
+                  .replace(/\s+\./, ".")
+                  .replace(/^./, (c) => c.toUpperCase());
+                const Icon = featureIcons[index];
+                return (
+                  <li key={feature.lead} className="relative pl-14 pr-3">
+                    {/* Same colour as the panel, so it reads as the panel bulging into the strip */}
+                    <span
+                      aria-hidden
+                      className="absolute left-0 top-1/2 flex size-[5.25rem] -translate-x-1/2 -translate-y-1/2 items-center justify-end rounded-full bg-white pr-2 shadow-[-4px_6px_14px_rgba(150,100,10,0.3)]"
+                    >
+                      <span className="grid size-[3.75rem] place-items-center rounded-full bg-white text-black ring-2 ring-[#e8a812]/70">
+                        <Icon size={32} strokeWidth={1.75} aria-hidden />
+                      </span>
+                    </span>
+                    <div className="relative py-3">
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-ink/25 to-transparent"
+                      />
+                      <h3 className="text-base font-semibold leading-snug text-ink">
+                        {feature.lead}
+                      </h3>
+                      <p className="mt-1 text-[13.5px] leading-snug text-ink/80">{detail}</p>
+                      <span
+                        aria-hidden
+                        className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-ink/25 to-transparent"
+                      />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+
+        <div className="relative mx-auto mt-8 hidden w-full min-w-0 max-w-5xl sm:block">
+          <div className="grid grid-cols-2 items-center gap-x-52 lg:gap-x-[19rem] xl:gap-x-[23rem]">
             {(["left", "right"] as const).map((side) => (
               <ul
                 key={side}
@@ -64,7 +130,7 @@ export function Features() {
                   .map((feature) => (
                     <li key={feature.lead} className="relative min-w-0 lg:mx-auto lg:max-w-[16rem]">
                       <CalloutArrow place={feature.place} />
-                      <p className="text-[13px] leading-snug text-[#5e4e44] lg:text-[15px] lg:leading-relaxed">
+                      <p className="text-sm leading-snug text-[#5e4e44] lg:text-[15px] lg:leading-relaxed">
                         <span className="font-semibold text-ink">{feature.lead}</span>{" "}
                         {feature.detail}
                       </p>

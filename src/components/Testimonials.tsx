@@ -49,7 +49,7 @@ export function Testimonials() {
   }, [active]);
 
   return (
-    <section className="overflow-hidden bg-white">
+    <section className="overflow-hidden">
       <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
         <h2
           className="text-center font-script text-6xl font-bold text-leaf sm:text-7xl lg:text-8xl"

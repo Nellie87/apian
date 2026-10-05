@@ -9,7 +9,7 @@ const shapes = [
 
 export function Services() {
   return (
-    <section id="services" className="bg-white">
+    <section id="services">
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
         <header className="text-center">
           <p className="font-script text-2xl text-orange sm:text-3xl">What we do</p>
