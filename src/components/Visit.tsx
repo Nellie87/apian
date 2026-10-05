@@ -65,7 +65,7 @@ export function Visit() {
     <section id="visit">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-x-8 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-2 lg:gap-x-12 lg:px-10 lg:py-20 xl:px-16">
         {/* Intro */}
-        <div className="lg:col-start-1 lg:row-start-1 lg:self-end">
+        <div className="text-blur lg:col-start-1 lg:row-start-1 lg:self-end">
           <p className="font-script text-4xl text-orange sm:text-5xl lg:text-5xl">Visit us</p>
           <h2 className="mt-1 font-display text-[1.75rem] font-bold leading-[1.15] tracking-tight text-ink sm:mt-2 sm:text-4xl lg:text-6xl">
             Come see us in Ruiru, or Buzz us today
@@ -91,7 +91,7 @@ export function Visit() {
 
         {/* Contact details + actions */}
         <div className="lg:col-start-1 lg:row-start-2 lg:self-start">
-          <div className="space-y-3 lg:mt-8 lg:space-y-5">
+          <div className="text-blur space-y-3 lg:mt-8 lg:space-y-5">
             <ContactRow
               label="Location"
               href={mapsUrl}

@@ -26,7 +26,7 @@ export function SiteFooter() {
       />
 
       <div className="mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:gap-12 sm:px-8 sm:py-12 md:grid-cols-12 md:gap-8 lg:py-14">
-        <div className="md:col-span-5">
+        <div className="text-blur md:col-span-5">
           <Image
             src="/images/logo.png"
             alt={site.name}
@@ -39,7 +39,7 @@ export function SiteFooter() {
           </p>
         </div>
 
-        <nav aria-label="Footer" className="md:col-span-3">
+        <nav aria-label="Footer" className="text-blur md:col-span-3">
           <FooterHeading>Explore</FooterHeading>
           <ul className="mt-5 space-y-3 text-sm">
             {links.map((link) => (
@@ -55,7 +55,7 @@ export function SiteFooter() {
           </ul>
         </nav>
 
-        <div className="md:col-span-4">
+        <div className="text-blur md:col-span-4">
           <FooterHeading>Visit the apiary</FooterHeading>
           <address className="mt-5 space-y-3 text-sm not-italic text-ink/75">
             <p>{site.location}</p>
@@ -80,7 +80,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-ink/10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-xs uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="text-blur mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-xs uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
           <p>
             © {new Date().getFullYear()} {site.name}
           </p>

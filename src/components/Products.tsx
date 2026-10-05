@@ -155,7 +155,7 @@ export function Products() {
                 {visibleCategories.map((category, categoryIndex) => (
                   <div key={category.id}>
                     <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
-                      <div>
+                      <div className="text-blur">
                         <h3 className="font-display text-2xl font-bold tracking-tight">
                           {category.label}
                         </h3>

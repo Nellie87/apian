@@ -11,7 +11,7 @@ export function Services() {
   return (
     <section id="services">
       <div className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
-        <header className="text-center">
+        <header className="text-blur mx-auto w-fit px-4 text-center">
           <p className="font-script text-2xl text-orange sm:text-3xl">What we do</p>
           <h2 className="mt-1 font-display text-5xl font-medium tracking-tight text-ink sm:text-6xl lg:text-7xl">
             Our <span className="italic">services</span>

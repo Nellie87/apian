@@ -25,7 +25,7 @@ export default async function ProductsPage({
       <main className="min-w-0">
         <section className="bg-linear-to-b from-[#fff3c4] via-[#fffaf3] to-white px-5 pb-12 pt-28 sm:px-8 sm:pb-16 sm:pt-36">
           <div className="mx-auto max-w-3xl text-center">
-            <SectionTitle title="Our Products" />
+            <SectionTitle title="Our Products" blur={false} />
             <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-ink-muted sm:text-lg">
               From raw honey to beeswax skincare - tap{" "}
               <span className="font-semibold text-orange">Benefits</span> on

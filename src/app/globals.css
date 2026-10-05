@@ -37,10 +37,6 @@ html {
 
 body {
   background-color: var(--background);
-  /* Faint honeycomb / cube grid on a white base */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='69.282' height='120' viewBox='0 0 69.282 120' fill='none' stroke='%23e8d9a8' stroke-opacity='0.55' stroke-width='1.2' stroke-linejoin='round'%3E%3Cpath d='M34.641 0L69.282 20M34.641 0L0 20M0 20L34.641 40L69.282 20M0 20V60M69.282 20V60M0 60L34.641 80L69.282 60M34.641 40V120M0 100L34.641 80L69.282 100M0 100V120M0 0V20M69.282 100V120M69.282 0V20'/%3E%3C/svg%3E");
-  background-size: 70px 121px;
-  background-repeat: repeat;
   color: var(--foreground);
   font-family: var(--font-outfit), ui-sans-serif, sans-serif;
 }
@@ -189,6 +185,35 @@ body {
   transform-box: fill-box;
   transform-origin: top center;
   animation: honey-blob-breathe 5.5s ease-in-out infinite;
+}
+
+/*
+ * Softens the body's honeycomb grid behind text. A frosted, feathered halo sits
+ * just behind the content so the grid melts away around words without leaving
+ * a visible box.
+ */
+.text-blur {
+  position: relative;
+  isolation: isolate;
+}
+
+.text-blur::before {
+  content: "";
+  position: absolute;
+  inset: -1rem -1.5rem;
+  z-index: -1;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.55);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image:
+    linear-gradient(to right, transparent, #000 1.25rem, #000 calc(100% - 1.25rem), transparent),
+    linear-gradient(to bottom, transparent, #000 1rem, #000 calc(100% - 1rem), transparent);
+  mask-image:
+    linear-gradient(to right, transparent, #000 1.25rem, #000 calc(100% - 1.25rem), transparent),
+    linear-gradient(to bottom, transparent, #000 1rem, #000 calc(100% - 1rem), transparent);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
 }
 
 .hex-clip {

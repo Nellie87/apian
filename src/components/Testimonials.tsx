@@ -52,7 +52,7 @@ export function Testimonials() {
     <section className="overflow-hidden">
       <div className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-12 lg:py-14">
         <h2
-          className="text-center font-script text-6xl font-bold text-leaf sm:text-7xl lg:text-8xl"
+          className="text-blur mx-auto w-fit text-center font-script text-6xl font-bold text-leaf sm:text-7xl lg:text-8xl"
           style={{ textShadow: "3px 3px 0 var(--yellow)" }}
         >
           Testimonial
@@ -116,7 +116,7 @@ export function Testimonials() {
           </figure>
         </div>
 
-        <p className="mt-10 text-center text-xs sm:mt-12 font-medium uppercase tracking-[0.25em] text-leaf/60">
+        <p className="text-blur mx-auto mt-10 w-fit text-center text-xs sm:mt-12 font-medium uppercase tracking-[0.25em] text-leaf/60">
           Tap the card for the next one
         </p>
 

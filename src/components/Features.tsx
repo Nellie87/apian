@@ -72,7 +72,7 @@ export function Features() {
             />
           </svg>
         </div>
-        <header className="text-center">
+        <header className="text-blur mx-auto w-fit px-4 text-center">
           <p className="font-display text-2xl font-medium tracking-tight text-ink sm:text-4xl">
             Why our
           </p>
@@ -123,7 +123,7 @@ export function Features() {
               {honeyFeatures
                 .filter((feature) => onLeft[feature.place] === (side === "left"))
                 .map((feature) => (
-                  <li key={feature.lead} className="relative min-w-0 max-w-[16rem]">
+                  <li key={feature.lead} className="text-blur relative min-w-0 max-w-[16rem]">
                     <CalloutArrow place={feature.place} />
                     <p className="text-[15px] leading-relaxed text-[#5e4e44]">
                       <span className="font-semibold text-ink">{feature.lead}</span> {feature.detail}
