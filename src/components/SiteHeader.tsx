@@ -3,9 +3,9 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const links = [
-  { href: "#about", label: "Honey" },
+  { href: "#honey", label: "Honey" },
   { href: "#products", label: "Shop" },
-  { href: "#purity", label: "Purity" },
+  { href: "#services", label: "Services" },
   { href: "#news", label: "News" },
   { href: "#visit", label: "Visit" },
 ];

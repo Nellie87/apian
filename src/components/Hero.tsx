@@ -23,7 +23,7 @@ export function Hero() {
               Shop Our Honey
             </a>
             <a
-              href="#about"
+              href="#honey"
               className="inline-flex min-h-10 items-center justify-center px-1 text-xs font-semibold text-ink/75 transition hover:text-ink sm:min-h-12 sm:px-2 sm:text-sm"
             >
               Our story

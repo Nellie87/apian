@@ -2,7 +2,7 @@ export const site = {
   name: "Pollinators Beekeeping and Apitherapy",
   shortName: "Pollinators",
   shopName: "Pollinators",
-  tagline: "Beekeeping & Apitherapy — pure honey, bee wellness, and apiary care.",
+  tagline: "Beekeeping & Apitherapy - pure honey, bee wellness, and apiary care.",
   location: "Ruiru, Kiambu County, Kenya",
   phoneDisplay: "+254 712 345 678",
   phoneTel: "+254712345678",
@@ -23,7 +23,7 @@ export const products = [
     name: "Raw Multifloral Honey",
     category: "honey" as const,
     description:
-      "Unheated honey from our Ruiru apiaries — floral, full-bodied, and packed straight from the comb.",
+      "Unheated honey from our Ruiru apiaries - floral, full-bodied, and packed straight from the comb.",
     sizes: "250g · 500g · 1kg",
     price: "KSh 850",
     compareAt: "KSh 1,100",
@@ -62,7 +62,7 @@ export const products = [
     name: "Honey Shampoo",
     category: "skincare" as const,
     description:
-      "A gentle cleanse with honey and botanicals — soft hair without harsh detergents.",
+      "A gentle cleanse with honey and botanicals - soft hair without harsh detergents.",
     sizes: "250ml · 500ml",
     price: "KSh 750",
     compareAt: "KSh 900",
@@ -88,7 +88,7 @@ export const products = [
     name: "Honey Granola",
     category: "honey" as const,
     description:
-      "Crunchy clusters roasted with our honey — breakfast from the hive.",
+      "Crunchy clusters roasted with our honey - breakfast from the hive.",
     sizes: "400g · 800g",
     price: "KSh 980",
     compareAt: "KSh 1,150",
@@ -101,43 +101,24 @@ export const products = [
 
 export const honeyFeatures = [
   {
-    title: "Quality Honey",
-    detail: "Harvested with care from healthy Ruiru colonies.",
+    place: "leftTop" as const,
+    lead: "We Collect The Product",
+    detail: "- from our own apiaries and trusted partner keepers nearby.",
   },
   {
-    title: "Fresh Honey",
-    detail: "Packed soon after extraction — flavour at its peak.",
+    place: "leftBottom" as const,
+    lead: "We Process Carefully",
+    detail: "- gentle extraction that protects enzymes and flavour.",
   },
   {
-    title: "Natural Honey",
-    detail: "Unheated and unblended. Just pure bee honey.",
+    place: "top" as const,
+    lead: "We Keep It Pure",
+    detail: "- no additives, tested for quality before packing.",
   },
   {
-    title: "Daily Honey",
-    detail: "Everyday jars for tea, toast, and wellness.",
-  },
-] as const;
-
-export const purityPoints = [
-  {
-    title: "We Collect The Product",
-    detail: "From our own apiaries and trusted partner keepers nearby.",
-    icon: "collect" as const,
-  },
-  {
-    title: "We Process Carefully",
-    detail: "Gentle extraction that protects enzymes and flavour.",
-    icon: "process" as const,
-  },
-  {
-    title: "We Keep It Pure",
-    detail: "No additives — tested for quality before packing.",
-    icon: "pure" as const,
-  },
-  {
-    title: "We Share Locally",
-    detail: "Hive-to-home delivery across Kiambu and beyond.",
-    icon: "share" as const,
+    place: "bottom" as const,
+    lead: "We Share Locally",
+    detail: "- hive-to-home delivery  .",
   },
 ] as const;
 
@@ -146,7 +127,7 @@ export const testimonials = [
     name: "John Duff",
     role: "Local Customer",
     quote:
-      "The multifloral honey tastes like the flowers around Ruiru — rich, clean, and never overpowering. Pollinators has become our family’s go-to jar.",
+      "The multifloral honey tastes like the flowers around Ruiru - rich, clean, and never overpowering. Pollinators has become our family’s go-to jar.",
     image: "/images/about-bees.jpg",
   },
   {
@@ -169,7 +150,7 @@ export const newsPosts = [
   {
     title: "Why raw honey tastes different every season",
     excerpt:
-      "Floral forage shifts with the rains — here’s what that means in your jar.",
+      "Floral forage shifts with the rains - here’s what that means in your jar.",
     image: "/images/honey.jpg",
     alt: "Golden honey in glass jars",
   },
@@ -183,7 +164,7 @@ export const newsPosts = [
   {
     title: "Apitherapy basics for everyday wellness",
     excerpt:
-      "Honey, propolis, and beeswax — simple ways Kenyan families use bee products.",
+      "Honey, propolis, and beeswax - simple ways Kenyan families use bee products.",
     image: "/images/propolis.jpg",
     alt: "Propolis near honeycomb",
   },
@@ -191,45 +172,28 @@ export const newsPosts = [
 
 export const services = [
   {
-    name: "Beekeeping training",
-    badge: "Training",
-    detail: "Hands-on courses for beginners and farmers ready to keep productive colonies.",
-    image: "/images/service-harvest.jpg",
-    alt: "Group of trainees in bee suits working together at a hive",
+    name: "Apitourism",
+    image: "/images/service-apitourism.jpg",
+    alt: "Beekeeper tending a hive among garden flowers",
   },
   {
-    name: "Hive inspection",
-    badge: "Inspection",
-    detail: "Health checks, queen status, and colony advice from experienced keepers.",
+    name: "Inspection",
     image: "/images/service-inspection.jpg",
     alt: "Beekeeper examining a honeycomb frame covered in bees",
   },
   {
-    name: "Bee removal & relocation",
-    badge: "Removal",
-    detail: "Safe capture and relocation of swarms — for homes, farms, and workplaces.",
+    name: "Bee removal / relocation",
     image: "/images/service-removal.jpg",
-    alt: "Beekeeper carefully handling a frame dense with honeybees",
+    alt: "Beekeeper handling a frame dense with honeybees",
   },
   {
-    name: "Honey harvesting",
-    badge: "Harvest",
-    detail: "Clean, low-stress harvests that protect the colony and the crop.",
-    image: "/images/honey.jpg",
-    alt: "Fresh honey dripping from a wooden dipper into a jar",
+    name: "Training",
+    image: "/images/service-harvest.jpg",
+    alt: "Group of trainees in bee suits working at a hive",
   },
   {
     name: "Bee hive installation",
-    badge: "Installation",
-    detail: "Langstroth and top-bar setup with starter colonies where needed.",
     image: "/images/service-installation.jpg",
-    alt: "Newly installed wooden Langstroth hives in a meadow",
-  },
-  {
-    name: "Apitourism",
-    badge: "Tourism",
-    detail: "Guided apiary visits — meet the bees, taste honey, learn the craft.",
-    image: "/images/service-apitourism.jpg",
-    alt: "Beekeeper tending a hive among garden flowers for visitors",
+    alt: "Painted wooden hives set in a meadow",
   },
 ] as const;

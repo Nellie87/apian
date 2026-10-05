@@ -1,9 +1,8 @@
-import { About } from "@/components/About";
 import { Features } from "@/components/Features";
 import { Hero } from "@/components/Hero";
 import { News } from "@/components/News";
 import { Products } from "@/components/Products";
-import { Purity } from "@/components/Purity";
+import { Services } from "@/components/Services";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { Testimonials } from "@/components/Testimonials";
@@ -13,12 +12,11 @@ export default function Home() {
   return (
     <>
       <SiteHeader />
-      <main>
+      <main className="min-w-0">
         <Hero />
         <Features />
-        <About />
         <Products />
-        <Purity />
+        <Services />
         <Testimonials />
         <News />
         <Visit />

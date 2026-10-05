@@ -3,52 +3,83 @@ import Link from "next/link";
 import { site } from "@/lib/site";
 
 const links = [
-  { href: "#about", label: "About" },
-  { href: "#products", label: "Products" },
-  { href: "#purity", label: "Purity" },
+  { href: "#honey", label: "Honey" },
+  { href: "#products", label: "Shop" },
+  { href: "#services", label: "Services" },
   { href: "#news", label: "News" },
   { href: "#visit", label: "Visit" },
 ];
 
 export function SiteFooter() {
   return (
-    <footer className="bg-ink text-white">
-      <div className="mx-auto flex max-w-6xl flex-col gap-8 px-5 py-12 sm:px-8 md:flex-row md:items-end md:justify-between">
-        <div>
+    <footer className="border-t border-ink/10 bg-[#fffaf3] text-ink">
+      <div className="mx-auto grid max-w-6xl gap-10 px-5 py-14 sm:px-8 md:grid-cols-12 md:gap-8 lg:py-16">
+        <div className="md:col-span-5">
           <Image
             src="/images/logo.png"
             alt={site.name}
             width={240}
             height={62}
-            className="h-12 w-auto"
+            className="h-14 w-auto"
           />
-          <p className="mt-4 text-sm leading-relaxed text-white/65">
+          <p className="mt-5 max-w-sm text-sm leading-relaxed text-ink-muted">
             {site.tagline}
           </p>
-          <p className="mt-2 text-sm text-white/55">{site.location}</p>
         </div>
-        <nav
-          aria-label="Footer"
-          className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70"
-        >
-          {links.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="transition hover:text-yellow"
-            >
-              {link.label}
-            </a>
-          ))}
-          <Link href="/login" className="transition hover:text-yellow">
+
+        <nav aria-label="Footer" className="md:col-span-3">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/45">
+            Explore
+          </p>
+          <ul className="mt-4 space-y-2.5 text-sm">
+            {links.map((link) => (
+              <li key={link.href}>
+                <a
+                  href={link.href}
+                  className="text-ink/80 transition hover:text-orange"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <div className="md:col-span-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-ink/45">
+            Visit the apiary
+          </p>
+          <address className="mt-4 space-y-2.5 text-sm not-italic text-ink/80">
+            <p>{site.location}</p>
+            <p>
+              <a
+                href={`tel:${site.phoneTel}`}
+                className="transition hover:text-orange"
+              >
+                {site.phoneDisplay}
+              </a>
+            </p>
+            <p>
+              <a
+                href={`mailto:${site.email}`}
+                className="transition hover:text-orange"
+              >
+                {site.email}
+              </a>
+            </p>
+          </address>
+        </div>
+      </div>
+
+      <div className="border-t border-ink/10">
+        <div className="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-5 text-xs text-ink/50 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+          <p>
+            © {new Date().getFullYear()} {site.name}. All rights reserved.
+          </p>
+          <Link href="/login" className="transition hover:text-orange">
             Staff login
           </Link>
-        </nav>
-      </div>
-      <div className="border-t border-white/10">
-        <p className="mx-auto max-w-6xl px-5 py-4 text-xs text-white/50 sm:px-8">
-          © {new Date().getFullYear()} {site.name}. All rights reserved.
-        </p>
+        </div>
       </div>
     </footer>
   );
