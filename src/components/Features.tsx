@@ -8,31 +8,65 @@ const onLeft = {
   bottom: false,
 } as const;
 
-function CalloutArrow({ place }: { place: (typeof honeyFeatures)[number]["place"] }) {
-  const onLeft = place === "leftTop" || place === "leftBottom";
-  const curveUp = place === "leftTop" || place === "top";
-  const curve = onLeft
-    ? curveUp
-      ? "M90 8C62 8 40 20 16 20"
-      : "M90 32C62 32 40 20 16 20"
-    : curveUp
-      ? "M8 8C36 8 58 20 82 20"
-      : "M8 32C36 32 58 20 82 20";
-  const head = onLeft ? "M28 12 14 20 28 28" : "M70 12 84 20 70 28";
+/*
+ * A dotted bee flight-path that links each point to the jar, drawn in the style of
+ * public/images/line.jpg. The base drawing points right and rises; the four
+ * positions are reached by mirroring, so one path serves every corner.
+ */
+function BeeTrail({ place }: { place: (typeof honeyFeatures)[number]["place"] }) {
+  const mirrorX = !onLeft[place];
+  const flipY = place === "leftTop" || place === "top";
+  const flip = mirrorX ? (flipY ? "-scale-100" : "-scale-x-100") : flipY ? "-scale-y-100" : "";
 
   return (
     <svg
-      viewBox="0 0 96 40"
+      viewBox="0 0 104 44"
       fill="none"
       aria-hidden
-      className={`pointer-events-none absolute top-1/2 h-8 w-24 -translate-y-1/2 text-[#8a7364] ${
-        onLeft
-          ? "-right-[4.75rem]"
-          : "-left-[4.75rem]"
+      className={`pointer-events-none absolute top-1/2 h-5 w-9 -translate-y-1/2 text-ink/70 sm:h-7 sm:w-12 lg:h-8 lg:w-16 xl:h-9 xl:w-20 ${flip} ${
+        onLeft[place]
+          ? "-right-9 sm:-right-12 lg:-right-16 xl:-right-20"
+          : "-left-9 sm:-left-12 lg:-left-16 xl:-left-20"
       }`}
     >
-      <path d={curve} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      <path d={head} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      <path
+        d="M3 38C14 38 20 32 28 29C50 9 22 7 42 27C54 33 62 24 74 15"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeDasharray="3.5 4.5"
+      />
+      <g transform="translate(86 12) rotate(-15)">
+        <ellipse
+          cx="-2"
+          cy="-6"
+          rx="5"
+          ry="2.8"
+          transform="rotate(-30 -2 -6)"
+          fill="#fff"
+          stroke="currentColor"
+          strokeWidth="1.2"
+        />
+        <ellipse
+          cx="3.2"
+          cy="-5.4"
+          rx="4.2"
+          ry="2.4"
+          transform="rotate(12 3.2 -5.4)"
+          fill="#fff"
+          stroke="currentColor"
+          strokeWidth="1.2"
+        />
+        <ellipse cx="0" cy="0" rx="6.4" ry="4.6" fill="#ffd237" stroke="currentColor" strokeWidth="1.4" />
+        <path d="M-2.2 -3.8v7.6M1.3 -4v8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+        <circle cx="7" cy="-0.8" r="2.8" fill="currentColor" />
+        <path
+          d="M8.4 -3.2c1-2.2 3.2-2.6 3.8-1"
+          stroke="currentColor"
+          strokeWidth="1.2"
+          strokeLinecap="round"
+        />
+      </g>
     </svg>
   );
 }
@@ -81,64 +115,43 @@ export function Features() {
           </h2>
         </header>
 
-        {/* Below lg: jar on top, the four points in a readable 2x2 grid (no shrinking) */}
-        <div className="mt-6 lg:hidden">
-          <div className="relative mx-auto aspect-[728/665] w-40 sm:w-56">
-            <Image
-              src="/images/honey-jar.png"
-              alt="Jar of golden honey with a wooden dipper and honeycomb"
-              fill
-              sizes="(min-width: 640px) 224px, 160px"
-              className="object-contain drop-shadow-[0_22px_28px_rgba(90,55,20,0.16)]"
-            />
-          </div>
-          <ul className="mt-5 grid grid-cols-2 gap-3 sm:gap-4">
-            {honeyFeatures.map((feature) => {
-              const detail = feature.detail
-                .replace(/^-\s*/, "")
-                .replace(/\s+\./, ".")
-                .replace(/^./, (c) => c.toUpperCase());
-              return (
-                <li
-                  key={feature.lead}
-                  className="rounded-xl border border-[#e8a812]/30 border-t-2 border-t-[#e8a812] bg-white/90 p-3 shadow-[0_6px_16px_-10px_rgba(90,55,20,0.35)] sm:p-4"
-                >
-                  <h3 className="text-[15px] font-semibold leading-snug text-ink">{feature.lead}</h3>
-                  <p className="mt-1 text-[14px] leading-snug text-[#5e4e44]">{detail}</p>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-
-        {/* lg+: points | jar | points as real grid columns. The jar is in flow, so nothing drifts out of alignment. */}
-        <div className="mx-auto mt-8 hidden w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-x-24 lg:grid xl:gap-x-28">
+        {/* points | jar | points as real grid columns at every width. The jar is in flow, so nothing drifts out of alignment. */}
+        <div className="mx-auto mt-4 grid w-full max-w-6xl grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-x-9 sm:gap-x-12 lg:mt-8 lg:gap-x-16 xl:gap-x-20">
           {(["left", "right"] as const).map((side) => (
             <ul
               key={side}
-              className={`row-start-1 flex min-w-0 flex-col justify-between gap-10 py-4 ${
+              className={`row-start-1 flex min-w-0 flex-col justify-between gap-6 py-2 sm:gap-8 lg:gap-10 lg:py-4 ${
                 side === "left" ? "col-start-1 items-end text-right" : "col-start-3 items-start text-left"
               }`}
             >
               {honeyFeatures
                 .filter((feature) => onLeft[feature.place] === (side === "left"))
-                .map((feature) => (
-                  <li key={feature.lead} className="text-blur relative min-w-0 max-w-[16rem]">
-                    <CalloutArrow place={feature.place} />
-                    <p className="text-[15px] leading-relaxed text-[#5e4e44]">
-                      <span className="font-semibold text-ink">{feature.lead}</span> {feature.detail}
-                    </p>
-                  </li>
-                ))}
+                .map((feature) => {
+                  const detail = feature.detail
+                    .replace(/^-\s*/, "")
+                    .replace(/\s+\./, ".")
+                    .replace(/^./, (c) => c.toUpperCase());
+                  return (
+                    <li key={feature.lead} className="relative min-w-0 hyphens-auto max-w-[16rem]">
+                      <BeeTrail place={feature.place} />
+                      <h3 className="text-[11.5px] font-semibold leading-tight tracking-tight text-ink sm:text-[14px] lg:text-[16px]">
+                        {feature.lead}
+                      </h3>
+                      <p className="mt-0.5 text-[10.5px] leading-[1.35] text-[#6b5a4e] sm:mt-1 sm:text-[12.5px] sm:leading-snug lg:text-[14px] lg:leading-relaxed">
+                        {detail}
+                      </p>
+                    </li>
+                  );
+                })}
             </ul>
           ))}
 
-          <div className="pointer-events-none relative col-start-2 row-start-1 aspect-[728/665] w-[18rem] self-center xl:w-[22rem]">
+          <div className="pointer-events-none relative col-start-2 row-start-1 aspect-[728/665] w-24 self-center sm:w-44 lg:w-[18rem] xl:w-[22rem]">
             <Image
               src="/images/honey-jar.png"
               alt="Jar of golden honey with a wooden dipper and honeycomb"
               fill
-              sizes="(min-width: 1280px) 352px, 288px"
+              sizes="(min-width: 1280px) 352px, (min-width: 1024px) 288px, (min-width: 640px) 176px, 96px"
               className="object-contain drop-shadow-[0_22px_28px_rgba(90,55,20,0.16)]"
             />
           </div>
