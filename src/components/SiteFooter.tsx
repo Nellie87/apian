@@ -80,7 +80,7 @@ export function SiteFooter() {
       </div>
 
       <div className="border-t border-ink/10">
-        <div className="text-blur mx-auto flex max-w-6xl flex-col gap-3 px-5 py-6 text-xs uppercase tracking-[0.18em] text-ink/45 sm:flex-row sm:items-center sm:justify-between sm:px-8">
+        <div className="text-blur mx-auto flex max-w-6xl flex-col items-center gap-2 px-5 py-6 text-center text-xs uppercase tracking-[0.18em] text-ink/45 sm:px-8">
           <p>
             © {new Date().getFullYear()} {site.name}
           </p>

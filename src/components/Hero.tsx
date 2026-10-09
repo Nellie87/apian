@@ -9,7 +9,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-32 bg-gradient-to-b from-transparent to-white sm:h-40"
       />
       <div className="mx-auto grid min-w-0 max-w-[90rem] grid-cols-1 items-center gap-6 px-6 pb-4 pt-24 md:grid-cols-2 md:gap-6 md:px-10 md:pb-6 md:pt-28 lg:min-h-[600px] lg:gap-8 lg:px-12 lg:pb-8 lg:pt-24 xl:px-16">
-        <div className="text-blur min-w-0 text-center md:text-left">
+        <div className="text-blur min-w-0 text-center">
           
 
           <h1 className="animate-fade-up delay-1 mt-3 font-display text-[clamp(2.5rem,10vw,3.5rem)] font-bold leading-[0.95] tracking-[-0.04em] text-ink md:mt-4 md:text-[clamp(2.25rem,4.8vw,4.35rem)]">
@@ -18,7 +18,7 @@ export function Hero() {
            <span className="text-[#c56f14]">& beekeeping</span>
           </h1>
 
-          <div className="animate-fade-up delay-3 mt-6 flex flex-col items-center gap-2 md:mt-8 md:flex-row md:flex-wrap md:gap-4">
+          <div className="animate-fade-up delay-3 mt-6 flex flex-col items-center gap-2 md:mt-8 md:flex-row md:flex-wrap md:justify-center md:gap-4">
             <a
               href="#products"
               className="inline-flex min-h-11 items-center justify-center rounded-full bg-orange px-8 py-3 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(197,111,20,0.28)] transition duration-300 hover:-translate-y-0.5 hover:bg-orange-deep focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange focus-visible:ring-offset-4"

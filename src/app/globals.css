@@ -35,6 +35,29 @@ html {
   scroll-behavior: smooth;
 }
 
+/*
+ * Homepage section snapping (lg+). Each section is at least one screen tall
+ * and the scroll settles on a section edge. Proximity, rather than a hard
+ * lock, keeps a section readable when its content runs past one screen.
+ */
+@media (min-width: 1024px) {
+  html.home-snap {
+    scroll-snap-type: y proximity;
+  }
+
+  html.home-snap main > section {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    min-height: 100dvh;
+  }
+
+  /* The footer sits after the last full-screen section. Snapping its end
+     edge keeps it reachable; a start snap would sit past the scroll limit. */
+  html.home-snap body > footer {
+    scroll-snap-align: end;
+  }
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -223,6 +246,13 @@ body {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+
+  html.home-snap main > section,
+  html.home-snap body > footer {
+    scroll-snap-align: none;
+    min-height: 0;
   }
 
   .animate-fade-up,
