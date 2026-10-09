@@ -1,4 +1,4 @@
-﻿export type CatalogIcon = "jar" | "leaf" | "drop" | "cup" | "hive";
+export type CatalogIcon = "jar" | "leaf" | "drop" | "cup" | "hive";
 
 export type CatalogProduct = {
   id: string;
@@ -24,6 +24,9 @@ export type CatalogCategory = {
   lead: string;
   blurb: string;
   icon: CatalogIcon;
+  /** Photo that represents the whole category (shown on category tiles). */
+  image: string;
+  imageAlt: string;
   products: CatalogProduct[];
 };
 
@@ -38,10 +41,12 @@ export const catalog: CatalogCategory[] = [
   /* ------------------------------------------------------------ */
   {
     id: "honey",
-    lead: "Sweeten your day with our",
-    label: "Honey",
-    blurb: "Raw, unheated honey from our Ruiru apiaries in every pack size.",
-    icon: "jar",
+    lead: "Straight from the hive, our",
+    label: "Honey & Hive",
+    blurb: "Raw honey from our Ruiru apiaries, plus propolis, tinctures and beeswax remedies.",
+    icon: "hive",
+    image: "/images/honey.jpg",
+    imageAlt: "A jar of raw golden honey with a wooden dipper",
     products: [
       {
         id: "honey",
@@ -91,16 +96,6 @@ export const catalog: CatalogCategory[] = [
         image: "/images/honey-jar.png",
         alt: "A jar of honey beside fresh honeycomb",
       },
-    ],
-  },
-  /* ------------------------------------------------------------ */
-  {
-    id: "hive",
-    lead: "Straight from the hive, our",
-    label: "Hive & Apitherapy",
-    blurb: "Propolis, tinctures and beeswax remedies from what the colony makes.",
-    icon: "hive",
-    products: [
       {
         id: "propolis-suspension",
         name: "Propolis Suspension",
@@ -173,6 +168,8 @@ export const catalog: CatalogCategory[] = [
     label: "Skin, Hair & Body Care",
     blurb: "Gentle, nature-based cleansers, creams and oils for everyday care.",
     icon: "drop",
+    image: img("body-cream"),
+    imageAlt: "A jar of natural body cream with green leaves",
     products: [
       {
         id: "hair-shampoo",
@@ -289,6 +286,8 @@ export const catalog: CatalogCategory[] = [
     label: "Kenyan Tea & Coffee",
     blurb: "Premium Kenyan teas, masala blends and single-origin coffee.",
     icon: "cup",
+    image: img("tea-black"),
+    imageAlt: "A cup of Kenyan black tea beside loose tea leaves",
     products: [
       
       {
@@ -417,10 +416,12 @@ export const catalog: CatalogCategory[] = [
   /* ------------------------------------------------------------ */
   {
     id: "herbal",
-    lead: "Refresh your body with our",
-    label: "Herbal Teas & Infusions",
-    blurb: "Caffeine-free herbal blends, moringa and health drinks.",
+    lead: "Nourish your body with our",
+    label: "Herbal & Superfoods",
+    blurb: "Caffeine-free herbal teas, moringa, and whole herbs, powders and seeds.",
     icon: "leaf",
+    image: img("tea-herbal-mixed"),
+    imageAlt: "Herbal tea with a bowl of dried leaves and flower petals",
     products: [
       {
         id: "winnies-mixed-herbal",
@@ -572,16 +573,6 @@ export const catalog: CatalogCategory[] = [
         image: img("tea-ginger"),
         alt: "A cup of ginger tea with lemon and fresh ginger root",
       },
-    ],
-  },
-  /* ------------------------------------------------------------ */
-  {
-    id: "superfoods",
-    lead: "Power up your plate with our",
-    label: "Herbs & Superfoods",
-    blurb: "Whole herbs, powders and seeds to add to drinks and meals.",
-    icon: "leaf",
-    products: [
       {
         id: "ashwagandha",
         name: "Ashwagandha",
@@ -662,10 +653,12 @@ export const catalog: CatalogCategory[] = [
   /* ------------------------------------------------------------ */
   {
     id: "spices",
-    lead: "Spice up your meals with our",
-    label: "Spices & Salt",
-    blurb: "Everyday spices and natural salt to season your cooking.",
+    lead: "Wholesome goodness, our",
+    label: "Spices & Pantry",
+    blurb: "Everyday spices, natural salt, nuts and wholesome kitchen staples.",
     icon: "jar",
+    image: img("cinnamon-powder"),
+    imageAlt: "A bowl of ground cinnamon beside cinnamon sticks",
     products: [
       {
         id: "cinnamon-powder",
@@ -728,16 +721,6 @@ export const catalog: CatalogCategory[] = [
         image: img("himalayan-salt"),
         alt: "A bowl of pink Himalayan salt crystals",
       },
-    ],
-  },
-  /* ------------------------------------------------------------ */
-  {
-    id: "pantry",
-    lead: "Wholesome goodness, our",
-    label: "Pantry & Kitchen",
-    blurb: "Wholesome foods and a few kitchen essentials.",
-    icon: "jar",
-    products: [
       {
         id: "granola",
         name: "Granola",

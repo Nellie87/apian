@@ -1,5 +1,6 @@
 ﻿"use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import {
@@ -35,9 +36,26 @@ export function Products() {
   // Desktop always has a category open in the sidebar tree.
   const activeCategory =
     catalog.find((c) => c.id === tab) ?? catalog[0];
-  const showAll = !isDesktop && tab === "all";
-  const visibleCategories = showAll ? catalog : [activeCategory];
-
+  // Phones/tablets start on a grid of category tiles (Apple/Samsung style)
+  // instead of one endless list; picking a tile opens just that category.
+  // Search (phones/tablets) lists matching products across every category.
+  const [query, setQuery] = useState("");
+  const needle = query.trim().toLowerCase();
+  const searching = !isDesktop && needle.length > 0;
+  const results = searching
+    ? catalog.flatMap((category) =>
+        category.products
+          .filter((p) =>
+            [p.name, p.tagline, p.summary, category.label, ...p.benefits]
+              .join(" ")
+              .toLowerCase()
+              .includes(needle),
+          )
+          .map((product) => ({ product, category })),
+      )
+    : [];
+  const showTiles = !isDesktop && !searching && tab === "all";
+  const visibleCategories = showTiles || searching ? [] : [activeCategory];
   // Show the floating filter button only while the products section is on screen.
   const sectionRef = useRef<HTMLElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -54,6 +72,15 @@ export function Products() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  // Switch category (or back to the tiles) and bring the list into view.
+  const chooseCategory = (id: string) => {
+    setQuery("");
+    setTab(id);
+    requestAnimationFrame(() =>
+      listRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }),
+    );
+  };
 
   return (
     <>
@@ -152,6 +179,98 @@ export function Products() {
 
             <div className="mt-6 lg:mt-0">
               <div ref={listRef} className="scroll-mt-4 space-y-10">
+                {showTiles ? (
+                  <div>
+                    <p className="text-sm text-ink-muted">
+                      Pick a category to see its products.
+                    </p>
+                    <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4">
+                      {catalog.map((category) => (
+                        <li key={category.id}>
+                          <button
+                            type="button"
+                            onClick={() => chooseCategory(category.id)}
+                            className="group flex h-full w-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white text-left shadow-sm transition duration-300 active:scale-[0.98] hover:border-orange hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+                          >
+                            <span className="relative block aspect-4/3 w-full overflow-hidden bg-yellow/30">
+                              <Image
+                                src={category.image}
+                                alt={category.imageAlt}
+                                fill
+                                sizes="(max-width: 640px) 50vw, 33vw"
+                                className="object-cover transition duration-500 group-hover:scale-105"
+                              />
+                            </span>
+                            <span className="flex flex-1 flex-col items-start gap-2 p-3.5 sm:p-4">
+                              <span className="font-display text-base font-semibold leading-snug text-ink">
+                                {category.label}
+                              </span>
+                              <span className="mt-auto text-xs font-semibold uppercase tracking-wider text-ink/50">
+                                {category.products.length}{" "}
+                                {category.products.length === 1
+                                  ? "item"
+                                  : "items"}
+                              </span>
+                            </span>
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+                {searching ? (
+                  <div>
+                    <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
+                      <div>
+                        <h3 className="font-display text-2xl font-bold tracking-tight">
+                          Search results
+                        </h3>
+                        <p className="mt-0.5 text-sm text-ink-muted">
+                          {results.length}{" "}
+                          {results.length === 1 ? "product" : "products"} for
+                          &ldquo;{query.trim()}&rdquo;
+                        </p>
+                      </div>
+                    </div>
+                    {results.length > 0 ? (
+                      <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6">
+                        {results.map(({ product, category }) => (
+                          <ProductCard
+                            key={`${category.id}-${product.id}`}
+                            product={product}
+                            icon={category.icon}
+                            onOpen={(p) => setSelected({ product: p, category })}
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="mt-8 text-center text-ink-muted">
+                        No products match your search.
+                      </p>
+                    )}
+                  </div>
+                ) : null}
+                {!isDesktop && !searching && !showTiles ? (
+                  <button
+                    type="button"
+                    onClick={() => chooseCategory("all")}
+                    className="-mb-4 inline-flex items-center gap-1.5 text-sm font-semibold text-ink-muted transition hover:text-orange focus-visible:outline-2 focus-visible:outline-orange"
+                  >
+                    <svg
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden
+                      className="size-4"
+                    >
+                      <path d="m13 4-6 6 6 6" />
+                    </svg>
+                    All categories
+                  </button>
+                ) : null}
                 {visibleCategories.map((category, categoryIndex) => (
                   <div key={category.id}>
                     <div className="flex items-end justify-between gap-4 border-b-2 border-yellow pb-3">
@@ -165,10 +284,8 @@ export function Products() {
                       </div>
                     </div>
                     <div className="mt-6 grid grid-cols-2 gap-4 sm:gap-6 xl:grid-cols-3">
-                      {(isDesktop
-                        ? category.products.slice(0, 6)
-                        : category.products
-                      ).map((product, index) => (
+                      {category.products
+                        .map((product, index) => (
                         <ProductCard
                           key={`${category.id}-${product.id}`}
                           eager={categoryIndex === 0 && index < 3}
@@ -182,19 +299,23 @@ export function Products() {
                 ))}
               </div>
               <div className="mt-10 flex flex-wrap justify-center gap-3 text-center lg:justify-start">
-                <Link
-                  href={showAll ? "/products" : `/products#${activeCategory.id}`}
-                  className="inline-flex rounded-full bg-orange px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
-                >
-                  {showAll
-                    ? "View full catalogue"
-                    : isDesktop && activeCategory.products.length > 6
-                      ? `See all ${activeCategory.label}`
-                      : "View full range"}
-                </Link>
+                {/* An open category already lists everything, so the
+                    catalogue link only appears on the tiles view. */}
+                {showTiles ? (
+                  <Link
+                    href="/products"
+                    className="inline-flex rounded-full bg-orange px-7 py-3 text-sm font-semibold text-white transition hover:bg-orange-deep"
+                  >
+                    View full catalogue
+                  </Link>
+                ) : null}
                 <a
                   href="#visit"
-                  className="inline-flex rounded-full border border-ink/20 px-7 py-3 text-sm font-semibold text-ink transition hover:border-ink"
+                  className={`inline-flex rounded-full px-7 py-3 text-sm font-semibold transition ${
+                    showTiles
+                      ? "border border-ink/20 text-ink hover:border-ink"
+                      : "bg-orange text-white hover:bg-orange-deep"
+                  }`}
                 >
                   Enquire to Order
                 </a>
@@ -206,17 +327,23 @@ export function Products() {
 
       <CategoryFilter
         hideFrom="lg"
+        allLabel="All categories"
         visible={inView}
-        activeId={tab}
-        onChoose={(id) => {
-          setTab(id);
-          requestAnimationFrame(() =>
-            listRef.current?.scrollIntoView({
-              behavior: "smooth",
-              block: "start",
-            }),
-          );
+        query={query}
+        onQueryChange={(value) => {
+          // Bring the results into view when the user starts typing.
+          if (!needle && value.trim()) {
+            requestAnimationFrame(() =>
+              listRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+              }),
+            );
+          }
+          setQuery(value);
         }}
+        activeId={tab}
+        onChoose={chooseCategory}
         options={catalog.map((c) => ({
           id: c.id,
           label: c.label,

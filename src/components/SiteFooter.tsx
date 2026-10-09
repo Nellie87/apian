@@ -19,7 +19,7 @@ function FooterHeading({ children }: { children: React.ReactNode }) {
 
 export function SiteFooter() {
   return (
-    <footer className="text-ink">
+    <footer className="overflow-x-clip text-ink">
       <div
         aria-hidden
         className="h-px w-full bg-gradient-to-r from-transparent via-yellow-deep/60 to-transparent"

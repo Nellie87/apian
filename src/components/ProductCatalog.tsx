@@ -425,6 +425,9 @@ export function CategoryFilter({
   onChoose,
   visible = true,
   hideFrom = "lg",
+  allLabel = "All products",
+  query,
+  onQueryChange,
 }: {
   options: CategoryFilterOption[];
   activeId: string;
@@ -433,8 +436,19 @@ export function CategoryFilter({
   visible?: boolean;
   /** Breakpoint from which the filter is hidden. */
   hideFrom?: keyof typeof hideFromClass;
+  /** Label for the "no category selected" entry. */
+  allLabel?: string;
+  /** When `onQueryChange` is provided, a search button sits above the filter. */
+  query?: string;
+  onQueryChange?: (query: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const searchExpanded = searchOpen || !!query;
+  const closeSearch = () => {
+    setSearchOpen(false);
+    onQueryChange?.("");
+  };
   const menuId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -457,7 +471,7 @@ export function CategoryFilter({
 
   const total = options.reduce((sum, o) => sum + o.count, 0);
   const active = options.find((o) => o.id === activeId);
-  const activeLabel = active?.label ?? "All products";
+  const activeLabel = active?.label ?? allLabel;
   const choose = (id: string) => {
     onChoose(id);
     setOpen(false);
@@ -467,13 +481,63 @@ export function CategoryFilter({
       isActive ? "bg-orange text-white" : "text-ink hover:bg-yellow/30"
     }`;
 
-  if (!visible && !open) return null;
+  if (!visible && !open && !query) return null;
 
   return (
     <div
-      ref={rootRef}
-      className={`fixed bottom-5 right-5 z-40 ${hideFromClass[hideFrom]}`}
+      className={`fixed bottom-5 right-5 z-40 flex flex-col items-end gap-3 ${hideFromClass[hideFrom]}`}
     >
+      {onQueryChange ? (
+        <div className="flex items-center gap-2">
+          {searchExpanded ? (
+            <input
+              type="search"
+              autoFocus
+              value={query ?? ""}
+              onChange={(e) => onQueryChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Escape") closeSearch();
+              }}
+              placeholder="Search products"
+              aria-label="Search products"
+              enterKeyHint="search"
+              autoComplete="off"
+              // 16px text stops iOS Safari zooming the page on focus.
+              className="w-[min(68vw,18rem)] rounded-full border border-ink/10 bg-white px-5 py-3 text-base text-ink shadow-lg shadow-ink/10 outline-none transition placeholder:text-ink/40 focus:border-orange [&::-webkit-search-cancel-button]:appearance-none"
+            />
+          ) : null}
+          <button
+            type="button"
+            aria-label={searchExpanded ? "Close search" : "Search products"}
+            aria-expanded={searchExpanded}
+            onClick={() =>
+              searchExpanded ? closeSearch() : setSearchOpen(true)
+            }
+            className="grid size-12 shrink-0 place-items-center rounded-full bg-orange text-white shadow-lg shadow-orange/30 transition hover:bg-orange-deep focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
+          >
+            <svg
+              viewBox="0 0 20 20"
+              className="size-5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              aria-hidden
+            >
+              {searchExpanded ? (
+                <path d="m5 5 10 10M15 5 5 15" />
+              ) : (
+                <>
+                  <circle cx="9" cy="9" r="5.5" />
+                  <path d="m13.5 13.5 3.5 3.5" />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
+      ) : null}
+
+      <div ref={rootRef} className="relative">
       {open ? (
         <div
           id={menuId}
@@ -488,7 +552,7 @@ export function CategoryFilter({
             onClick={() => choose("all")}
             className={itemClass(activeId === "all")}
           >
-            <span className="flex-1">All products</span>
+            <span className="flex-1">{allLabel}</span>
             <span className="text-xs font-medium opacity-70">{total}</span>
           </button>
           {options.map((option) => (
@@ -529,8 +593,9 @@ export function CategoryFilter({
         >
           <path d="M3 5h14M6 10h8M9 15h2" />
         </svg>
-        <span className="max-w-40 truncate">{activeLabel}</span>
+        <span className="max-w-28 truncate sm:max-w-40">{activeLabel}</span>
       </button>
+      </div>
     </div>
   );
 }
@@ -603,17 +668,25 @@ export function ProductCatalog({
             <li key={category.id}>
               <a
                 href={`#${category.id}`}
-                className="group flex h-full flex-col items-start gap-3 rounded-2xl border border-ink/10 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange hover:bg-yellow/20 hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange sm:p-5"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl border border-ink/10 bg-white shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-orange hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange"
               >
-                <span className="grid size-12 place-items-center rounded-full bg-yellow text-ink transition group-hover:bg-orange group-hover:text-white">
-                  <Icon name={category.icon} className="size-7" />
+                <span className="relative block aspect-4/3 w-full overflow-hidden bg-yellow/30">
+                  <Image
+                    src={category.image}
+                    alt={category.imageAlt}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    className="object-cover transition duration-500 group-hover:scale-105"
+                  />
                 </span>
-                <span className="font-display text-base font-semibold leading-snug text-ink sm:text-lg">
-                  {category.label}
-                </span>
-                <span className="mt-auto text-xs font-semibold uppercase tracking-wider text-ink/50">
-                  {category.products.length}{" "}
-                  {category.products.length === 1 ? "item" : "items"}
+                <span className="flex flex-1 flex-col items-start gap-2 p-3.5 sm:p-4">
+                  <span className="font-display text-base font-semibold leading-snug text-ink sm:text-lg">
+                    {category.label}
+                  </span>
+                  <span className="mt-auto text-xs font-semibold uppercase tracking-wider text-ink/50">
+                    {category.products.length}{" "}
+                    {category.products.length === 1 ? "item" : "items"}
+                  </span>
                 </span>
               </a>
             </li>
